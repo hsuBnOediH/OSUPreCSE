@@ -4,68 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PreCSEActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="327dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="132dp"
-            android:layout_weight="0.382"
-            android:text="选择下列你符合的AP成绩选项" />
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.618">
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <CheckBox
-                    style="@style/CustomCheckboxTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="科目A: X分"
-                    />
-                <CheckBox
-                    style="@style/CustomCheckboxTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="科目B: X分"
-                    />
-                <CheckBox
-                    style="@style/CustomCheckboxTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="科目C: X分"
-                    />
-                <CheckBox
-                    style="@style/CustomCheckboxTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="科目D: X分"
-                    />
-                <CheckBox
-                    style="@style/CustomCheckboxTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="科目E: X分"
-                    />
-                <CheckBox
-                    style="@style/CustomCheckboxTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="科目F: X分"
-                    />
-            </ListView>
-        </ScrollView>
-        <LinearLayout
+            android:layout_height="wrap_content"
+            android:text="@string/AP_promote" />
+        <ListView
+            android:id="@+id/ap_list"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NEXT"/>
+                android:layout_gravity="right"
+                android:text="@string/Next_Button_text" />
         </LinearLayout>
 
     </LinearLayout>
