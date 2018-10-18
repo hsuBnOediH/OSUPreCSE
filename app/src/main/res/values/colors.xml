@@ -3,7 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="preMajorBack">#FFFFFF</color>
-    <color name="majorBack">#000000</color>
+    <color name="main_pre_major_button_back">#FFFFFF</color>
+    <color name="main_in_major_back">#BA0000</color>
     <color name="main_major_button_text">#FFFFFF</color>
+    <color name="main_pre_button_text">#BA0000</color>
 </resources>

@@ -15,9 +15,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preMajor = findViewById(R.id.preMajor);
+        preMajor = findViewById(R.id.main_pre_major);
         preMajor.setOnClickListener(preMajorListener);
-        major = findViewById(R.id.major);
+        major = findViewById(R.id.main_in_major);
         major.setOnClickListener(majorListener);
 
 
