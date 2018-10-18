@@ -2,4 +2,14 @@
     <string name="app_name">Demo</string>
     <string name="main_pre_button_text">Pre-Cse major</string>
     <string name="main_button_major_text">Already in major</string>
+    <string name="AP_promote">选择下列你符合的AP成绩选项</string>
+    <string name="Next_Button_text">NEXT</string>
+    <string-array name="ap_list">
+        <item>科目A: X分</item>
+        <item>科目B: X分</item>
+        <item>科目C: X分</item>
+        <item>科目D: X分</item>
+        <item>科目E: X分</item>
+        <item>科目F: X分</item>
+    </string-array>
 </resources>
