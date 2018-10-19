@@ -4,6 +4,7 @@
     <string name="main_button_major_text">Already in major</string>
     <string name="AP_promote">选择下列你符合的AP成绩选项</string>
     <string name="Next_Button_text">NEXT</string>
+    <string name="pre_ap_promote_question">选择下列你符合的AP成绩选项</string>
     <string-array name="ap_list">
         <item>科目A: X分</item>
         <item>科目B: X分</item>
