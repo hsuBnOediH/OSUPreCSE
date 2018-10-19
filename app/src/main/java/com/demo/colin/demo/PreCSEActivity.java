@@ -1,10 +1,12 @@
 package com.demo.colin.demo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ public class PreCSEActivity extends AppCompatActivity {
     private ListView listView;
     private CheckBoxListAdapter checkBoxListAdapter;
     private ArrayList<String> contextList;
+    private Button nextStep;
     private static class ViewHolder {
         TextView tv;
         CheckBox cb;
@@ -44,6 +47,9 @@ public class PreCSEActivity extends AppCompatActivity {
                 dataChanged();
             }
         });
+
+        nextStep = findViewById(R.id.ap_confirm_button);
+        nextStep.setOnClickListener(nextStepListener);
     }
 
     private void initData(){
@@ -55,6 +61,15 @@ public class PreCSEActivity extends AppCompatActivity {
     }
 
     private void dataChanged(){
+
         checkBoxListAdapter.notifyDataSetChanged();
     }
+
+    Button.OnClickListener nextStepListener= new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent jumpPre = new Intent(com.demo.colin.demo.PreCSEActivity.this, MajorActivity.class);
+            startActivity(jumpPre);
+            PreCSEActivity.this.finish();
+        }
+    };
 }
