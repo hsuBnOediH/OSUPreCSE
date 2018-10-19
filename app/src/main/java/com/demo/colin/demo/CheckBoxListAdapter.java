@@ -16,6 +16,7 @@ public class CheckBoxListAdapter extends BaseAdapter {
     private static HashMap<Integer,Boolean> isSelected;
     private Context context;
     private LayoutInflater inflater = null;
+
     private static class ViewHolder {
         TextView tv;
         CheckBox cb;

@@ -25,6 +25,6 @@ public class PreCSEActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_cse);
         listView = (ListView) findViewById(R.id.lv);
-        bt_selectedall = findViewById(R.id);
+        bt_selectedall = findViewById(R.id.);
     }
 }
