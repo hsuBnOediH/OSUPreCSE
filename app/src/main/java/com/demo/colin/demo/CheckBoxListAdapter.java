@@ -17,9 +17,9 @@ public class CheckBoxListAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater = null;
 
-    private static class ViewHolder {
-        TextView tv;
-        CheckBox cb;
+    public final class ViewHolder{
+        public TextView tv;
+        public CheckBox cb ;
     }
 
 
@@ -60,7 +60,7 @@ public class CheckBoxListAdapter extends BaseAdapter {
             // 获得ViewHolder对象
             holder = new ViewHolder();
             // 导入布局并赋值给convertview
-            convertView = inflater.inflate(R.layout.activity_pre_cse, null);
+            convertView = inflater.inflate(R.layout.item_checkbox_list, null);
             holder.tv = (TextView) convertView.findViewById(R.id.item_tv);
             holder.cb = (CheckBox) convertView.findViewById(R.id.item_cb);
             // 为view设置标签

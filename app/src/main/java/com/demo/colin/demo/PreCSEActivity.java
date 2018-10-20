@@ -20,11 +20,6 @@ public class PreCSEActivity extends AppCompatActivity {
     private CheckBoxListAdapter checkBoxListAdapter;
     private ArrayList<String> contextList;
     private Button nextStep;
-    private static class ViewHolder {
-        TextView tv;
-        CheckBox cb;
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +35,8 @@ public class PreCSEActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ViewHolder holder = (ViewHolder) view.getTag();
+                CheckBoxListAdapter.ViewHolder holder = (CheckBoxListAdapter.ViewHolder) view.getTag();
                 holder.cb.toggle();
-
                 checkBoxListAdapter.getIsSelected().put(position, holder.cb.isChecked());
                 dataChanged();
             }
