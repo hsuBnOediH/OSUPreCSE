@@ -18,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="20pt"
             android:layout_marginTop="10pt"
-            android:layout_weight=""
             android:text="@string/pre_ap_promote_question"
             android:textStyle="bold"
             android:textAlignment="center"
