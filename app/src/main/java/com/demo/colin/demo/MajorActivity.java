@@ -17,10 +17,6 @@ public class MajorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_major);
 
-        Intent intent = getIntent();
-        HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
 
-        TextView textView  = findViewById(R.id.textaaa);
-        textView.setText(set.toString());
     }
 }
