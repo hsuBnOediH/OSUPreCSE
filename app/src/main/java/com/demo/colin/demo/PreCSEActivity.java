@@ -69,7 +69,7 @@ public class PreCSEActivity extends AppCompatActivity {
     Button.OnClickListener nextStepListener= new Button.OnClickListener() {
         public void onClick(View v) {
             //跳转下一个的页面
-            Intent jumpPre = new Intent(com.demo.colin.demo.PreCSEActivity.this, EnglishMath.class);
+            Intent jumpPre = new Intent(com.demo.colin.demo.PreCSEActivity.this, EnglishActivity.class);
             // pass set 到下一个页面
             jumpPre.putExtra("Set",getSatisfySet(checkBoxListAdapter.getSelectedMap()));
             //jump 页面

@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".PreCSEActivity" />
-        <activity android:name=".MajorActivity"></activity>
+        <activity android:name=".MajorActivity" />
+        <activity android:name=".EnglishActivity"></activity>
     </application>
 
 </manifest>
