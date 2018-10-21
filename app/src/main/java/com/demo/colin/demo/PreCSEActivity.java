@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,7 +33,7 @@ public class PreCSEActivity extends AppCompatActivity {
         // 记录的选项选中的Map
         HashMap<Integer, Boolean> satisfyClass = new HashMap<>();
         // 实体化Adapter
-        checkBoxListAdapter = new CheckBoxListAdapter(contextList,this, satisfyClass);
+        checkBoxListAdapter = new CheckBoxListAdapter(contextList, this, satisfyClass);
         // 关联ListView 和adapter
         listView.setAdapter(checkBoxListAdapter);
         // 选项被选中的反应函数
@@ -50,28 +51,30 @@ public class PreCSEActivity extends AppCompatActivity {
         nextStep.setOnClickListener(nextStepListener);
     }
 
-    private void initData(){
+    private void initData() {
         // 加入ListView 的选项
-        contextList.add("我的ap可以换掉CSE1223");
-        contextList.add("我的ap可以换掉MATH1151");
-        contextList.add("我的ap可以换掉MATH1152");
-        contextList.add("我的ap可以换掉ENG1110");
-        contextList.add("我的ap可以换掉PHY1250");
-        contextList.add("我的ap可以换掉PHY1251");
+        contextList.add("我的Computer Science A 大于等于3分");
+        contextList.add("我的Calculus AB 大于等于3 分");
+        contextList.add("我的Calculus BC 大于等于3 分");
+        contextList.add("我的English Literature and Composition大于等于3分");
+        contextList.add("我的Physics C: Mechanics 大于等于 3分");
+        contextList.add("我的Physics C: Electricity and Magnetism 大于等于3分");
+        contextList.add("我是非英语母语的国际学生");
     }
 
     // 选项变化后 更新展示的内容
-    private void dataChanged(){
+    private void dataChanged() {
         checkBoxListAdapter.notifyDataSetChanged();
     }
 
     // 下一步按键的响应函数
-    Button.OnClickListener nextStepListener= new Button.OnClickListener() {
+    Button.OnClickListener nextStepListener = new Button.OnClickListener() {
         public void onClick(View v) {
             //跳转下一个的页面
             Intent jumpPre = new Intent(com.demo.colin.demo.PreCSEActivity.this, EnglishActivity.class);
+
             // pass set 到下一个页面
-            jumpPre.putExtra("Set",getSatisfySet(checkBoxListAdapter.getSelectedMap()));
+            jumpPre.putExtra("Set", getSatisfySet(checkBoxListAdapter.getSelectedMap()));
             //jump 页面
             startActivity(jumpPre);
             // 关闭当前页面
@@ -79,23 +82,24 @@ public class PreCSEActivity extends AppCompatActivity {
         }
     };
 
-    private HashSet<String> getSatisfySet(HashMap<Integer,Boolean> map) {
+    private HashSet<String> getSatisfySet(HashMap<Integer, Boolean> map) {
         HashSet<String> set = new HashSet<>();
-        if(map.get(0)) set.add("CSE1223");
+        if (map.get(0)) set.add("CSE1223");
 
-        if(map.get(1))set.add("MATH1151");
+        if (map.get(1)) set.add("MATH1151");
 
-        if(map.get(2))set.add("MATH1152");
+        if (map.get(2)) set.add("MATH1152");
 
-        if(map.get(3)) set.add("ENG1110");
+        if (map.get(3)) set.add("ENG1110");
 
-        if(map.get(4)) set.add("PHY1250");
+        if (map.get(4)) set.add("PHY1250");
 
-        if(map.get(5)) set.add("PHY1251");
+        if (map.get(5)) set.add("PHY1251");
+
+        if (map.get(6)) set.add("INTER");
 
         return set;
     }
-
 
 
 }

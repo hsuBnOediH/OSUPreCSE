@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".PreCSEActivity" />
         <activity android:name=".MajorActivity" />
-        <activity android:name=".EnglishActivity"></activity>
+        <activity android:name=".EnglishActivity" />
+        <activity android:name=".PreScheduleActivity"></activity>
     </application>
 
 </manifest>

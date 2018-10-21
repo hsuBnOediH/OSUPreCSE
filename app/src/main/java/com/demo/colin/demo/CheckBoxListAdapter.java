@@ -22,6 +22,7 @@ public class CheckBoxListAdapter extends BaseAdapter {
     }
 
 
+    // constructor 函数
     public CheckBoxListAdapter(ArrayList<String> contextList, Context context,HashMap<Integer,Boolean>selectedMap){
         this.contextList = contextList;
         inflater = LayoutInflater.from(context);
@@ -30,8 +31,10 @@ public class CheckBoxListAdapter extends BaseAdapter {
         initDate();
     }
 
+    // 初始化记录static map
     private void initDate() {
         for (int i = 0; i < contextList.size(); i++) {
+            // 所有选项都在未选中状态
             getIsSelected().put(i,false);
         }
     }
@@ -79,11 +82,12 @@ public class CheckBoxListAdapter extends BaseAdapter {
 
 
 
-    public static HashMap<Integer,Boolean> getIsSelected() {
+    static HashMap<Integer,Boolean> getIsSelected() {
         return isSelected;
     }
 
-    public HashMap<Integer, Boolean> getSelectedMap() {
+    // 把非static 记录map 返回
+    HashMap<Integer, Boolean> getSelectedMap() {
         for(int position = 0; position < this.getCount(); position++){
             selectedMap.put(position,getIsSelected().get(position));
         }
