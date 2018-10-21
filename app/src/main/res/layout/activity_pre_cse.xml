@@ -31,11 +31,11 @@
 
         <Button
             android:id="@+id/ap_confirm_button"
-            android:layout_width="115dp"
-            android:layout_height="123dp"
-            android:text="Next">
-
-        </Button>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_text_next"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"/>
 
     </LinearLayout>
 

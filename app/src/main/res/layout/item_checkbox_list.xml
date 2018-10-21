@@ -5,7 +5,6 @@
     android:orientation="horizontal" >
 
 
-
     <CheckBox
         android:id="@+id/item_cb"
         android:layout_width="wrap_content"
@@ -14,7 +13,9 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center_vertical"
+        style="@style/CustomCheckboxTheme"
         />
+
     <TextView
         android:id="@+id/item_tv"
         android:layout_width="0dp"
@@ -22,4 +23,5 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         />
+
 </LinearLayout>

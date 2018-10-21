@@ -27,7 +27,7 @@ public class CheckBoxListAdapter extends BaseAdapter {
         this.contextList = contextList;
         this.context = context;
         inflater = LayoutInflater.from(context);
-        isSelected  = new HashMap<Integer, Boolean>();
+        isSelected  = new HashMap<>();
         initDate();
     }
 
@@ -59,10 +59,10 @@ public class CheckBoxListAdapter extends BaseAdapter {
         if (convertView == null) {
             // 获得ViewHolder对象
             holder = new ViewHolder();
-            // 导入布局并赋值给convertview
+            // 导入布局并赋值给convert view
             convertView = inflater.inflate(R.layout.item_checkbox_list, null);
-            holder.tv = (TextView) convertView.findViewById(R.id.item_tv);
-            holder.cb = (CheckBox) convertView.findViewById(R.id.item_cb);
+            holder.tv =  convertView.findViewById(R.id.item_tv);
+            holder.cb = convertView.findViewById(R.id.item_cb);
             // 为view设置标签
             convertView.setTag(holder);
         } else {
@@ -84,10 +84,4 @@ public class CheckBoxListAdapter extends BaseAdapter {
         return isSelected;
     }
 
-
-
-
-    public static void setIsSelected(HashMap<Integer,Boolean> isSelected) {
-        CheckBoxListAdapter.isSelected = isSelected;
-    }
 }
