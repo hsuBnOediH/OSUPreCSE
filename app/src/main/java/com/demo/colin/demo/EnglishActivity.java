@@ -34,24 +34,24 @@ public class EnglishActivity extends AppCompatActivity {
         // 选项插入
         initData();
         if(!apSet.contains("INTER")) {
-            contextList.remove("Start With Eng 1901");
-            contextList.remove("Start With Eng 1902");
+            contextList.remove("Have took Eng 1901");
+            contextList.remove("Have took Eng 1902");
         }
         if (apSet.contains("ENG1110")) {
-            contextList.remove("Start With Eng 1110");
+            contextList.remove("Have took Eng 1110");
         }
         if (apSet.contains("MATH1151")) {
-            contextList.remove("Start With Eng 1151");
+            contextList.remove("Have took Eng 1151");
         }
         if (apSet.contains("MATH1152")) {
-            contextList.remove("Start With Eng 1151");
-            contextList.remove("Start With Eng 1152");
+            contextList.remove("Have took Eng 1151");
+            contextList.remove("Have took Eng 1152");
         }
         if (apSet.contains("PhY1250")) {
-            contextList.remove("Start With PHY 1250");
+            contextList.remove("Have took PHY 1250");
         }
         if (apSet.contains("PHY1251")) {
-            contextList.remove("Start With PHY 1251");
+            contextList.remove("Have took PHY 1251");
         }
 
         // 记录的选项选中的Map
@@ -78,14 +78,19 @@ public class EnglishActivity extends AppCompatActivity {
 
     private void initData() {
         // 加入ListView 的选项
-        contextList.add("Start With Eng 1901");
-        contextList.add("Start With Eng 1902");
-        contextList.add("Start With Eng 1110");
-        contextList.add("Start With Math 1151");
-        contextList.add("Start With Math 1152");
-        contextList.add("Start With Math 2153");
-        contextList.add("Start With PHY 1250");
-        contextList.add("Start With PHY 1251");
+        contextList.add("Have took Eng 1901");
+        contextList.add("Have took Eng 1902");
+        contextList.add("Have took Eng 1110");
+        contextList.add("Have took Math 1151");
+        contextList.add("Have took Math 1152");
+        contextList.add("Have took Math 2153");
+        contextList.add("Have took PHY 1250");
+        contextList.add("Have took PHY 1251");
+        contextList.add("Have took CSE 1223");
+        contextList.add("Have took CSE 2221");
+        contextList.add("Have took SUV 1110");
+        contextList.add("Have took ENG 1181.01");
+        contextList.add("Have took ENG 1182.01");
 
     }
 
@@ -110,17 +115,7 @@ public class EnglishActivity extends AppCompatActivity {
 
     private HashSet<String> getSatisfySet(HashMap<Integer, Boolean> map) {
         HashSet<String> set = new HashSet<>();
-        if (map.get(0)) set.add("CSE1223");
-
-        if (map.get(1)) set.add("MATH1151");
-
-        if (map.get(2)) set.add("MATH1152");
-
-        if (map.get(3)) set.add("ENG1110");
-
-        if (map.get(4)) set.add("PHY1250");
-
-        if (map.get(5)) set.add("PHY1251");
+       // if (map.get(0)) set.add("CSE1223");
 
         return set;
     }
