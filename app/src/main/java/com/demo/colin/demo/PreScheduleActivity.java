@@ -7,20 +7,18 @@ import android.widget.TextView;
 
 import java.util.HashSet;
 
-public class EnglishActivity extends AppCompatActivity {
+public class PreScheduleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_english);
+        setContentView(R.layout.activity_pre_schedule);
 
 
         Intent intent = getIntent();
         HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
 
-        TextView textView = findViewById(R.id.textaaa);
-        textView.setText(set.toString());
-
-
+        TextView textView  = findViewById(R.id.texttest);
+        textView.setText("ALL Good "+set.toString());
     }
 }
