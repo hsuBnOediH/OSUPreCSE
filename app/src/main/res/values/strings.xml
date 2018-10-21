@@ -5,4 +5,6 @@
     <string name="AP_promote">选择下列你符合的AP成绩选项</string>
     <string name="button_text_next">NEXT</string>
     <string name="pre_ap_promote_question">选择下列你符合的AP成绩选项</string>
+    <string name="pre_english_promote_question">选择下列你的English Level</string>
+    <string name="pre_math_promote_question">选择下列你的math Level</string>
 </resources>
