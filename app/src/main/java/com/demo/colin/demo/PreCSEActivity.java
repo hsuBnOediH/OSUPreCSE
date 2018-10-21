@@ -3,7 +3,6 @@ package com.demo.colin.demo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,33 +13,30 @@ import java.util.HashSet;
 
 public class PreCSEActivity extends AppCompatActivity {
 
-
-    private ListView listView;
+    // 创建adapter
     private CheckBoxListAdapter checkBoxListAdapter;
     private ArrayList<String> contextList;
-    private Button nextStep;
-    private HashMap<Integer,Boolean> staify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_cse);
-        listView = findViewById(R.id.lv);
+        ListView listView = findViewById(R.id.lv);
         contextList = new ArrayList<>();
         initData();
-        staify = new HashMap<>();
-        checkBoxListAdapter = new CheckBoxListAdapter(contextList,this,staify);
+        HashMap<Integer, Boolean> satisfyClass = new HashMap<>();
+        checkBoxListAdapter = new CheckBoxListAdapter(contextList,this, satisfyClass);
         listView.setAdapter(checkBoxListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CheckBoxListAdapter.ViewHolder holder = (CheckBoxListAdapter.ViewHolder) view.getTag();
                 holder.cb.toggle();
-                checkBoxListAdapter.getIsSelected().put(position, holder.cb.isChecked());
+                CheckBoxListAdapter.getIsSelected().put(position, holder.cb.isChecked());
                 dataChanged();
             }
         });
-        nextStep = findViewById(R.id.ap_confirm_button);
+        Button nextStep = findViewById(R.id.ap_confirm_button);
         nextStep.setOnClickListener(nextStepListener);
     }
 
