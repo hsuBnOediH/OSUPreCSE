@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class PreCSEActivity extends AppCompatActivity {
 
@@ -59,9 +60,22 @@ public class PreCSEActivity extends AppCompatActivity {
     Button.OnClickListener nextStepListener= new Button.OnClickListener() {
         public void onClick(View v) {
             Intent jumpPre = new Intent(com.demo.colin.demo.PreCSEActivity.this, MajorActivity.class);
-            checkBoxListAdapter.getSelectedMap();
-            jumpPre.putExtra("ConditionMap","sdad");
+            HashMap<Integer,Boolean> map = checkBoxListAdapter.getSelectedMap();
+            HashSet<String> set = new HashSet<>();
 
+            if(map.get(0)) set.add("CSE1223");
+
+            if(map.get(1))set.add("MATH1151");
+
+            if(map.get(2))set.add("MATH1152");
+
+            if(map.get(3)) set.add("ENG1110");
+
+            if(map.get(4)) set.add("PHY1250");
+
+            if(map.get(5)) set.add("PHY1251");
+
+            jumpPre.putExtra("Set",set);
             startActivity(jumpPre);
             PreCSEActivity.this.finish();
         }

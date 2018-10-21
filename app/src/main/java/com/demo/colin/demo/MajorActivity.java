@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class MajorActivity extends AppCompatActivity {
 
@@ -16,9 +18,9 @@ public class MajorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_major);
 
         Intent intent = getIntent();
-        String data = intent.getStringExtra("ConditionMap");
-        TextView textView = findViewById(R.id.textaaa);
-        textView.setText(data);
-        Log.d("data pased", data);
+        HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
+
+        TextView textView  = findViewById(R.id.textaaa);
+        textView.setText(set.toString());
     }
 }
