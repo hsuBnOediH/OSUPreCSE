@@ -3,6 +3,7 @@ package com.demo.colin.demo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,7 +18,7 @@ public class PreCSEActivity extends AppCompatActivity {
     private CheckBoxListAdapter checkBoxListAdapter;
     private ArrayList<String> contextList;
     private Button nextStep;
-    private HashMap<String,Boolean> staify;
+    private HashMap<Integer,Boolean> staify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,8 @@ public class PreCSEActivity extends AppCompatActivity {
         listView = findViewById(R.id.lv);
         contextList = new ArrayList<>();
         initData();
-        checkBoxListAdapter = new CheckBoxListAdapter(contextList,this);
+        staify = new HashMap<>();
+        checkBoxListAdapter = new CheckBoxListAdapter(contextList,this,staify);
         listView.setAdapter(checkBoxListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -51,13 +53,14 @@ public class PreCSEActivity extends AppCompatActivity {
     }
 
     private void dataChanged(){
-
         checkBoxListAdapter.notifyDataSetChanged();
     }
 
     Button.OnClickListener nextStepListener= new Button.OnClickListener() {
         public void onClick(View v) {
-            Intent jumpPre = new Intent(com.demo.colin.demo.PreCSEActivity.this, MainActivity.class);
+            Intent jumpPre = new Intent(com.demo.colin.demo.PreCSEActivity.this, MajorActivity.class);
+            checkBoxListAdapter.getSelectedMap();
+            jumpPre.putExtra("ConditionMap","sdad");
 
             startActivity(jumpPre);
             PreCSEActivity.this.finish();

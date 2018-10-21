@@ -14,20 +14,19 @@ import java.util.HashMap;
 public class CheckBoxListAdapter extends BaseAdapter {
     private ArrayList<String > contextList;
     private static HashMap<Integer,Boolean> isSelected;
-    private Context context;
-    private LayoutInflater inflater = null;
-
+    private LayoutInflater inflater ;
+    private HashMap<Integer,Boolean> selectedMap;
     public final class ViewHolder{
         public TextView tv;
         public CheckBox cb ;
     }
 
 
-    public CheckBoxListAdapter(ArrayList<String> contextList, Context context){
+    public CheckBoxListAdapter(ArrayList<String> contextList, Context context,HashMap<Integer,Boolean>selectedMap){
         this.contextList = contextList;
-        this.context = context;
         inflater = LayoutInflater.from(context);
         isSelected  = new HashMap<>();
+        this.selectedMap = selectedMap;
         initDate();
     }
 
@@ -55,7 +54,7 @@ public class CheckBoxListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder ;
         if (convertView == null) {
             // 获得ViewHolder对象
             holder = new ViewHolder();
@@ -84,4 +83,10 @@ public class CheckBoxListAdapter extends BaseAdapter {
         return isSelected;
     }
 
+    public HashMap<Integer, Boolean> getSelectedMap() {
+        for(int position = 0; position < this.getCount(); position++){
+            selectedMap.put(position,getIsSelected().get(position));
+        }
+        return selectedMap;
+    }
 }
