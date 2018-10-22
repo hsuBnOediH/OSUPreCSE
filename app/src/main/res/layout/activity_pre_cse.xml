@@ -1,41 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PreCSEActivity">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/ap_promote_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:layout_height="20pt"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/pre_ap_promote_question"
+        android:textAlignment="center"
+        android:textSize="10pt"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/ap_promote_text"
-            android:layout_width="match_parent"
-            android:layout_height="20pt"
-            android:layout_marginTop="10pt"
-            android:text="@string/pre_ap_promote_question"
-            android:textAlignment="center"
-            android:textSize="10pt"
-            android:textStyle="bold" />
+    <ListView
+        android:id="@+id/ap_checkbox_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ap_confirm_button"
+        android:layout_below="@id/ap_promote_text" />
 
-        <ListView
-            android:id="@+id/ap_checkbox_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+    <Button
+        android:id="@+id/ap_confirm_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_shape"
+        android:gravity="center_horizontal"
+        android:text="@string/button_text_next"
+        android:textColor="#f5f0f0" />
 
-        <Button
-            android:id="@+id/ap_confirm_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_shape"
-            android:gravity="center_horizontal"
-            android:text="@string/button_text_next"
-            android:textColor="#f5f0f0" />
 
-    </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
