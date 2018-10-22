@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             Intent jumpPre = new Intent(com.demo.colin.demo.MainActivity.this, PreCSEActivity.class);
             startActivity(jumpPre);
-            //关闭当前页面
-            MainActivity.this.finish();
         }
     };
     //major按钮 跳转major页面

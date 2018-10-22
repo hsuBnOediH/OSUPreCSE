@@ -11,19 +11,19 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CheckBoxListAdapter extends BaseAdapter {
+public class ApListAdapter extends BaseAdapter {
     private ArrayList<String > contextList;
     private static HashMap<Integer,Boolean> isSelected;
     private LayoutInflater inflater ;
     private HashMap<Integer,Boolean> selectedMap;
     public final class ViewHolder{
-        private TextView tv;
-        private CheckBox cb ;
+         TextView tv;
+         CheckBox cb ;
     }
 
 
     // constructor 函数
-    public CheckBoxListAdapter(ArrayList<String> contextList, Context context,HashMap<Integer,Boolean>selectedMap){
+    public ApListAdapter(ArrayList<String> contextList, Context context, HashMap<Integer,Boolean>selectedMap){
         this.contextList = contextList;
         inflater = LayoutInflater.from(context);
         isSelected  = new HashMap<>();

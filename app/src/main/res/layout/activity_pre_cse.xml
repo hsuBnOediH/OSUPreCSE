@@ -9,9 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="327dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">
+        >
 
         <TextView
             android:id="@+id/ap_promote_text"
@@ -19,23 +17,24 @@
             android:layout_height="20pt"
             android:layout_marginTop="10pt"
             android:text="@string/pre_ap_promote_question"
-            android:textStyle="bold"
             android:textAlignment="center"
             android:textSize="10pt"
-            />
+            android:textStyle="bold" />
 
         <ListView
             android:id="@+id/ap_checkbox_list"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
 
         <Button
             android:id="@+id/ap_confirm_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:gravity="center_horizontal"
             android:text="@string/button_text_next"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_horizontal"/>
+            android:textColor="#f5f0f0" />
 
     </LinearLayout>
 

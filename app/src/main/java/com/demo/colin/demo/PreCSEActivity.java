@@ -15,7 +15,7 @@ import java.util.HashSet;
 public class PreCSEActivity extends AppCompatActivity {
 
     // 创建adapter
-    private CheckBoxListAdapter checkBoxListAdapter;
+    private ApListAdapter apListAdapter;
     // 创建选项的arrayList
     private ArrayList<String> contextList;
 
@@ -33,16 +33,16 @@ public class PreCSEActivity extends AppCompatActivity {
         // 记录的选项选中的Map
         HashMap<Integer, Boolean> satisfyClass = new HashMap<>();
         // 实体化Adapter
-        checkBoxListAdapter = new CheckBoxListAdapter(contextList, this, satisfyClass);
+        apListAdapter = new ApListAdapter(contextList, this, satisfyClass);
         // 关联ListView 和adapter
-        listView.setAdapter(checkBoxListAdapter);
+        listView.setAdapter(apListAdapter);
         // 选项被选中的反应函数
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckBoxListAdapter.ViewHolder holder = (CheckBoxListAdapter.ViewHolder) view.getTag();
+                ApListAdapter.ViewHolder holder = (ApListAdapter.ViewHolder) view.getTag();
                 holder.cb.toggle();
-                CheckBoxListAdapter.getIsSelected().put(position, holder.cb.isChecked());
+                ApListAdapter.getIsSelected().put(position, holder.cb.isChecked());
                 dataChanged();
             }
         });
@@ -64,7 +64,7 @@ public class PreCSEActivity extends AppCompatActivity {
 
     // 选项变化后 更新展示的内容
     private void dataChanged() {
-        checkBoxListAdapter.notifyDataSetChanged();
+        apListAdapter.notifyDataSetChanged();
     }
 
     // 下一步按键的响应函数
@@ -74,11 +74,9 @@ public class PreCSEActivity extends AppCompatActivity {
             Intent jumpPre = new Intent(com.demo.colin.demo.PreCSEActivity.this, EnglishActivity.class);
 
             // pass set 到下一个页面
-            jumpPre.putExtra("Set", getSatisfySet(checkBoxListAdapter.getSelectedMap()));
+            jumpPre.putExtra("Set", getSatisfySet(apListAdapter.getSelectedMap()));
             //jump 页面
             startActivity(jumpPre);
-            // 关闭当前页面
-            PreCSEActivity.this.finish();
         }
     };
 
