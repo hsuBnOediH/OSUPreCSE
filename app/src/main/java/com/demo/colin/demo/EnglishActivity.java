@@ -65,9 +65,9 @@ public class EnglishActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ApListAdapter.ViewHolder holder = (ApListAdapter.ViewHolder) view.getTag();
+                EngMathListAdapter.ViewHolder holder = (EngMathListAdapter.ViewHolder) view.getTag();
                 holder.cb.toggle();
-                ApListAdapter.getIsSelected().put(position, holder.cb.isChecked());
+                EngMathListAdapter.getIsSelected().put(position, holder.cb.isChecked());
                 dataChanged();
             }
         });
