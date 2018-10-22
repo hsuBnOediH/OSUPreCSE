@@ -39,17 +39,19 @@ public class EnglishActivity extends AppCompatActivity {
             this.contextList.remove("Have took ENG1110");
         }
         if (apSet.contains("MATH1151")) {
-            contextList.remove("Have took ENG1151");
+            contextList.remove("Have took MATH1151");
         }
         if (apSet.contains("MATH1152")) {
-            this.contextList.remove("Have took ENG1151");
-            this.contextList.remove("Have took ENG1152");
+            this.contextList.remove("Have took MATH1151");
+            this.contextList.remove("Have took MATH1152 or  MATH1172");
         }
         if (apSet.contains("PHY1250")) {
             this.contextList.remove("Have took PHY1250");
         }
         if (apSet.contains("PHY1251")) {
             this.contextList.remove("Have took PHY1251");
+        }if(apSet.contains("CSE1223")){
+            this.contextList.remove("Have took CSE1223");
         }
 
         // 记录的选项选中的Map
@@ -81,7 +83,7 @@ public class EnglishActivity extends AppCompatActivity {
         contextList.add("Have took ENG1902");
         contextList.add("Have took ENG1110");
         contextList.add("Have took MATH1151");
-        contextList.add("Have took MATH1152");
+        contextList.add("Have took MATH1152 or  MATH1172");
         contextList.add("Have took MATH2153");
         contextList.add("Have took PHY1250");
         contextList.add("Have took PHY1251");
