@@ -11,28 +11,30 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CheckBoxListAdapter extends BaseAdapter {
+public class ApListAdapter extends BaseAdapter {
     private ArrayList<String > contextList;
     private static HashMap<Integer,Boolean> isSelected;
-    private Context context;
-    private LayoutInflater inflater = null;
-
-    private static class ViewHolder {
-        TextView tv;
-        CheckBox cb;
+    private LayoutInflater inflater ;
+    private HashMap<Integer,Boolean> selectedMap;
+    public final class ViewHolder{
+         TextView tv;
+         CheckBox cb ;
     }
 
 
-    public CheckBoxListAdapter(ArrayList<String> contextList, Context context){
+    // constructor 函数
+    public ApListAdapter(ArrayList<String> contextList, Context context, HashMap<Integer,Boolean>selectedMap){
         this.contextList = contextList;
-        this.context = context;
         inflater = LayoutInflater.from(context);
-        isSelected  = new HashMap<Integer, Boolean>();
+        isSelected  = new HashMap<>();
+        this.selectedMap = selectedMap;
         initDate();
     }
 
+    // 初始化记录static map
     private void initDate() {
         for (int i = 0; i < contextList.size(); i++) {
+            // 所有选项都在未选中状态
             getIsSelected().put(i,false);
         }
     }
@@ -55,14 +57,14 @@ public class CheckBoxListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder ;
         if (convertView == null) {
             // 获得ViewHolder对象
             holder = new ViewHolder();
-            // 导入布局并赋值给convertview
+            // 导入布局并赋值给convert view
             convertView = inflater.inflate(R.layout.item_checkbox_list, null);
-            holder.tv = (TextView) convertView.findViewById(R.id.item_tv);
-            holder.cb = (CheckBox) convertView.findViewById(R.id.item_cb);
+            holder.tv =  convertView.findViewById(R.id.item_tv);
+            holder.cb = convertView.findViewById(R.id.item_cb);
             // 为view设置标签
             convertView.setTag(holder);
         } else {
@@ -80,14 +82,15 @@ public class CheckBoxListAdapter extends BaseAdapter {
 
 
 
-    public static HashMap<Integer,Boolean> getIsSelected() {
+    static HashMap<Integer,Boolean> getIsSelected() {
         return isSelected;
     }
 
-
-
-
-    public static void setIsSelected(HashMap<Integer,Boolean> isSelected) {
-        CheckBoxListAdapter.isSelected = isSelected;
+    // 把非static 记录map 返回
+    HashMap<Integer, Boolean> getSelectedMap() {
+        for(int position = 0; position < this.getCount(); position++){
+            selectedMap.put(position,getIsSelected().get(position));
+        }
+        return selectedMap;
     }
 }
