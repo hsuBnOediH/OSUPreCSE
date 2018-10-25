@@ -19,6 +19,9 @@ public class PreScheduleActivity extends AppCompatActivity {
         HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
 
         TextView textView  = findViewById(R.id.texttest);
-        textView.setText("ALL Good "+set.toString());
+
+        CourseTree courseTree = new CourseTree("Pre");
+        courseTree.deleteAll(set);
+        textView.setText("ALL Good "+courseTree.getChoice().toString());
     }
 }

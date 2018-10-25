@@ -1,14 +1,16 @@
+package com.demo.colin.demo;
+
 import java.util.ArrayList;
 
 public class Course {
-	private ArrayList<String> pre;
-	private ArrayList<String> sub ;
+	private ArrayList<String> pre = new ArrayList<>();
+	private ArrayList<String> sub = new ArrayList<>();
 	private String courseName;
 	
 	public Course(String courseName,ArrayList<String> pre,ArrayList<String> sub) {
 		this.courseName = courseName;
-		this.pre = pre;
-		this.sub = sub;
+		this.pre.addAll(pre);
+		this.sub.addAll(sub);
 	}
 	
 	public ArrayList<String> getPre(){
@@ -24,5 +26,8 @@ public class Course {
 		return this.courseName;
 	}
 
-	
+
+	public void deletePre(String name) {
+		this.pre.remove(name);
+	}
 }

@@ -9,7 +9,7 @@ public class CourseTree {
 
 
     public CourseTree(String major) {
-        if (major.equals("pre")) {
+        if (major.equals("Pre")) {
             this.courses = preTreeBuild();
         } else if (major.equals("AI")) {
             //this.courses = AITreeBuild();
@@ -94,7 +94,7 @@ public class CourseTree {
     }
 
 
-    public void deletAll(Set<String> set) {
+    public void deleteAll(Set<String> set) {
         for (String name : set) {
             int i = 0;
             while (!this.courses.get(i).getName().equals(name)) {

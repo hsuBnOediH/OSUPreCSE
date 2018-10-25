@@ -34,6 +34,8 @@ public class EnglishActivity extends AppCompatActivity {
         if(!apSet.contains("INTER")) {
             this.contextList.remove("Have took ENG1901");
             this.contextList.remove("Have took ENG1902");
+        }else{
+            apSet.remove("INTER");
         }
         if (apSet.contains("ENG1110")) {
             this.contextList.remove("Have took ENG1110");
