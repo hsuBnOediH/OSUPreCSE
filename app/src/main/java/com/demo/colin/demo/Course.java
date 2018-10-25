@@ -30,4 +30,7 @@ public class Course {
 	public void deletePre(String name) {
 		this.pre.remove(name);
 	}
+    public void deleteSub(String name) {
+        this.sub.remove(name);
+	}
 }

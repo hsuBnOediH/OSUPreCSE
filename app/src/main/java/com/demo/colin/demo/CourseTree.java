@@ -99,20 +99,38 @@ public class CourseTree {
     public void deleteAll(Set<String> set) {
         for (String name : set) {
             int i = 0;
+            // Get the course node
             while (!this.courses.get(i).getName().equals(name)) {
                 i++;
             }
-
+            // Get the next course list for this specific course node
             ArrayList<String> sub = this.courses.get(i).getSub();
-
+            // Delete all the prerequisite of all the next courses
             for (String subName : sub) {
                 int j = 0;
+                // Get one course node from the next course lists
                 while (!this.courses.get(j).getName().equals(subName)) {
                     j++;
                 }
+                // Update nextNode.pre by deleting the course node set.name
                 this.courses.get(j).deletePre(name);
             }
 
+            // Get the pre course list for this specific course node
+            ArrayList<String> pre = this.courses.get(i).getPre();
+            // Delete all the prerequisite of all the next courses
+            for (String subName : pre) {
+                int j = 0;
+                // Get one course node from the next course lists
+                while (!this.courses.get(j).getName().equals(subName)) {
+                    j++;
+                }
+                // Update nextNode.pre by deleting the course node set.name
+                this.courses.get(j).deleteSub(name);
+                if (this.courses.get(j).getSub().size()==0) {
+                    this.courses.remove(j);
+                }
+            }
             this.courses.remove(i);
         }
     }
