@@ -91,6 +91,8 @@ public class CourseTree {
             }
             this.courses.get(j).deletePre(name);
         }
+
+        this.courses.remove(i);
     }
 
 
@@ -110,6 +112,8 @@ public class CourseTree {
                 }
                 this.courses.get(j).deletePre(name);
             }
+
+            this.courses.remove(i);
         }
     }
 
