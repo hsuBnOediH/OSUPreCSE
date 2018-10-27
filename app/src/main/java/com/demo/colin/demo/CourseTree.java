@@ -51,6 +51,7 @@ public class CourseTree {
         res.add(new Course("ENG1110", pre, sub));
 
         arrayClear(pre, sub);
+        sub.add("MATH1152");
         res.add(new Course("MATH1151", pre, sub));
 
         arrayClear(pre, sub);
@@ -69,6 +70,13 @@ public class CourseTree {
         arrayClear(pre, sub);
         pre.add("CSE1223");
         res.add(new Course("CSE2221", pre, sub));
+
+        arrayClear(pre, sub);
+        pre.add("MATH1151");
+        res.add(new Course("MATH1152", pre, sub));
+
+        arrayClear(pre, sub);
+        res.add(new Course("SUV1110", pre, sub));
 
         return res;
     }
