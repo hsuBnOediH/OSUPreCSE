@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <Button
 
-            android:id="@+id/preMajor"
+            android:id="@+id/main_pre_major"
             android:layout_width="match_parent"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@color/preMajorBack"
-            android:text="@string/main_pre_button_text"/>
+            android:layout_weight="1"
+            android:background="@color/main_pre_major_button_back"
+            android:text="@string/main_pre_button_text"
+            android:textColor="@color/main_pre_button_text" />
         <Button
-            android:id="@+id/major"
+            android:id="@+id/main_in_major"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/majorBack"
+            android:background="@color/main_in_major_back"
             android:text="@string/main_button_major_text"
             android:textColor="@color/main_major_button_text"
             />

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BB0000"
+    tools:context=".SplashActivity">
+
+    <ImageView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:src="@drawable/splash_logo"
+        android:adjustViewBounds="true"
+        android:scaleType="center"
+        android:maxWidth="42dp"
+        android:maxHeight="42dp"
+        tools:ignore="ContentDescription" />
+</android.support.constraint.ConstraintLayout>
