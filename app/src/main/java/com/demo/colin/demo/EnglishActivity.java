@@ -34,6 +34,8 @@ public class EnglishActivity extends AppCompatActivity {
         if(!apSet.contains("INTER")) {
             this.contextList.remove("Have took ENG1901");
             this.contextList.remove("Have took ENG1902");
+            apSet.add("ENG1901");
+            apSet.add("ENG1902");
         }else{
             apSet.remove("INTER");
         }
@@ -111,15 +113,21 @@ public class EnglishActivity extends AppCompatActivity {
             jumpPre.putExtra("Set", getSatisfySet(checkBoxListAdapter.getSelectedMap(),apSet));
             //jump 页面
             startActivity(jumpPre);
-            // 关闭当前页面
-            EnglishActivity.this.finish();
         }
     };
 
     private HashSet<String> getSatisfySet(HashMap<Integer, Boolean> map,HashSet<String> set) {
         for (int i = 0; i < contextList.size(); i ++){
             if(map.get(i)){
-                set.add(contextList.get(i).split(" ")[2]);
+                String className  = contextList.get(i).split(" ")[2];
+                set.add(className);
+                if(className.equals("ENG1110")){
+                    set.add("ENG1901");
+                    set.add("ENG1902");
+                }
+                if(className.equals("ENG1902")) set.add("ENG1901");
+                if(className.equals("MATH1152")) set.add("MATH1152");
+                if(className.equals("CSE2221")) set.add("CSE1223");
             }
         }
 
