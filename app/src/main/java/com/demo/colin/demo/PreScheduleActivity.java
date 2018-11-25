@@ -21,8 +21,10 @@ public class PreScheduleActivity extends Activity {
 
         TextView textView  = findViewById(R.id.item_class);
 
+
         CourseTree courseTree = new CourseTree();
        courseTree.firstMarkAndAddAll(set);
+        textView.setText(courseTree.printAvail());
     }
 
 }
