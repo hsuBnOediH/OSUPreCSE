@@ -213,38 +213,34 @@ final public class CourseTree {
         }
     }
 
+    public void undo(){
+        
+    }
     public void addCourse(String selectCourse) {
         // First remove the course from availCourses and add that to finishedCourses
         this.availCourses.remove(selectCourse);
-        this.finishedCourses.add(selectCourse);
+        this.finishedCourses.push(selectCourse);
         this.flagTree.put(selectCourse, State.FINISHED);
         // Now it is necessary to check all the sub course of the new updated course
-        ArrayList<String> newcourSub = this.courses.get(selectCourse).getSub();
-        System.out.println("All the subCourses of " + selectCourse + " are "
-                + newcourSub.toString());
-        for (int i = 0; i < newcourSub.size(); i++) {
-            String perSub = newcourSub.get(i);
+        ArrayList<String> newCourseSub = this.courses.get(selectCourse).getSub();
+        for (String subClass : newCourseSub) {
             // Determine if this subCourse has been marked
-            if (this.flagTree.get(perSub) == State.NONE) {
-                ArrayList<String> subPreList = this.courses.get(perSub)
+                ArrayList<String> subPreList = this.courses.get(subClass)
                         .getPre();
-                ArrayList<String> tempMeetList = new ArrayList<String>();
-                // Find all the meet prerequisite courses
-                for (int j = 0; j < subPreList.size(); j++) {
-                    if (this.flagTree.get(subPreList.get(j)) == State.FINISHED) {
-                        tempMeetList.add(subPreList.get(j));
-                    }
-                }
-                // Delete them from this sub course
-                this.courses.get(perSub).getPre().removeAll(tempMeetList);
-                if (this.courses.get(perSub).getPreSize() == 0) {
-                    this.availCourses.add(perSub);
-                    this.flagTree.put(perSub, State.AVAILABLE);
+                if(couldBeAvailable(subPreList)){
+                    this.flagTree.put(subClass,State.AVAILABLE);
                 }
             }
+    }
+
+    private boolean couldBeAvailable(ArrayList<String> subPreList) {
+
+        for (String course : subPreList) {
+            if (this.flagTree.get(course) != State.FINISHED) {
+                return false;
+            }
         }
-        // Show the updated finished courses
-        this.printAvail();
+        return true;
     }
 }
 
