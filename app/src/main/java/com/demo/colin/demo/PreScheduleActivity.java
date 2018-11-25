@@ -16,7 +16,7 @@ public class PreScheduleActivity extends Activity {
         Intent intent = getIntent();
         HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
 
-        TextView textView  = findViewById(R.id.item_class);
+        TextView textView  = findViewById(R.id.ava_class);
 
 
         CourseTree courseTree = new CourseTree();

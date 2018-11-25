@@ -11,7 +11,7 @@ enum State {
     FINISHED, AVAILABLE, NONE;
 }
 
-public class CourseTree {
+final public class CourseTree {
 
     private HashMap<String, Course> courses;
     private HashMap<String, State> flagTree;
