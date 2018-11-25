@@ -30,19 +30,19 @@ public class Course {
         return this.pre.size();
     }
 
-    public int getSubSize() {
-        return this.sub.size();
-    }
-
-    public void deletePre(String name) {
-        this.pre.remove(name);
-    }
-
-    public void deleteAllPre() {
-        this.pre.clear();
-    }
-
-    public void deleteSub(String name) {
-        this.sub.remove(name);
-    }
+//    public int getSubSize() {
+//        return this.sub.size();
+//    }
+//
+//    public void deletePre(String name) {
+//        this.pre.remove(name);
+//    }
+//
+//    public void deleteAllPre() {
+//        this.pre.clear();
+//    }
+//
+//    public void deleteSub(String name) {
+//        this.sub.remove(name);
+//    }
 }

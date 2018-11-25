@@ -5,52 +5,56 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
+
+enum State {
+    FINISHED, AVAILABLE, NONE;
+}
 
 public class CourseTree {
 
     private HashMap<String, Course> courses;
-    private HashMap<String, Integer> flagTree;
-    private HashSet<String> finishedCourses;
+    private HashMap<String, State> flagTree;
+    private Stack<String> finishedCourses;
     private HashSet<String> availCourses;
     private HashSet<String> basicCourses;
+
 
     public CourseTree() {
         this.courses = preTreeBuild();
         this.flagTree = flagTreeBuild();
         this.basicCourses = basicBuild();
-        this.finishedCourses = new HashSet<String>();
-        this.availCourses = new HashSet<String>();
+        this.finishedCourses = new Stack<>();
+        this.availCourses = new HashSet<>();
     }
 
-    public void printAvail() {
-        System.out.println("Student can take: " + this.availCourses.toString());
+    public String printAvail() {
+        return this.availCourses.toString();
     }
 
-    private static void arrayClear(ArrayList<String> pre,
-                                   ArrayList<String> sub) {
+    private static void arrayClear(ArrayList<String> pre, ArrayList<String> sub) {
         pre.clear();
         sub.clear();
-
     }
 
-    private static HashMap<String, Integer> flagTreeBuild() {
-        HashMap<String, Integer> flagTree = new HashMap<>();
+    private static HashMap<String, State> flagTreeBuild() {
+        HashMap<String, State> flagTree = new HashMap<>();
         Set<String> courseSet = new HashSet<>();
-        courseSet.addAll(Arrays.asList(new String[] { "ENG1181", "ENG1182",
+        courseSet.addAll(Arrays.asList(new String[]{"ENG1181", "ENG1182",
                 "ENG1901", "ENG1902", "ENG1110", "ENG2367", "MATH1151",
                 "MATH1152", "MATH2153", "PHY1250", "PHY1251", "MATH3345",
                 "STAT3470", "SUV1110", "CSE1223", "CSE2221", "CSE2231",
-                "CSE2321", "CSE3241" }));
+                "CSE2321", "CSE3241"}));
         for (String course : courseSet) {
-            flagTree.put(course, 0);
+            flagTree.put(course, State.NONE);
         }
         return flagTree;
     }
 
     private static HashSet<String> basicBuild() {
         HashSet<String> courseSet = new HashSet<>();
-        courseSet.addAll(Arrays.asList(new String[] { "ENG1181", "ENG1901",
-                "MATH1151", "PHY1250", "SUV1110", "CSE1223" }));
+        courseSet.addAll(Arrays.asList(new String[]{"ENG1181", "ENG1901",
+                "MATH1151", "PHY1250", "SUV1110", "CSE1223"}));
         return courseSet;
     }
 
@@ -156,9 +160,9 @@ public class CourseTree {
     }
 
     private void markAllPre(String botCourse) {
-        if (this.flagTree.get(botCourse) == 0) {
+        if (this.flagTree.get(botCourse) == State.NONE) {
             // This course should be marked now;
-            this.flagTree.put(botCourse, 1);
+            this.flagTree.put(botCourse, State.FINISHED);
             // Get the child course list for this specific course node
             ArrayList<String> pre = this.courses.get(botCourse).getPre();
             // make all its prerequisite courses marked
@@ -182,13 +186,13 @@ public class CourseTree {
             for (int i = 0; i < curretnSub.size(); i++) {
                 String perSub = curretnSub.get(i);
                 // Determine if this subCourse has been marked
-                if (this.flagTree.get(perSub) == 0) {
+                if (this.flagTree.get(perSub) == State.NONE) {
                     ArrayList<String> subPreList = this.courses.get(perSub)
                             .getPre();
                     ArrayList<String> tempMeetList = new ArrayList<String>();
                     // Find all the meet prerequisite courses
                     for (int j = 0; j < subPreList.size(); j++) {
-                        if (this.flagTree.get(subPreList.get(j)) == 1) {
+                        if (this.flagTree.get(subPreList.get(j)) == State.FINISHED) {
                             tempMeetList.add(subPreList.get(j));
                         }
                     }
@@ -196,15 +200,15 @@ public class CourseTree {
                     this.courses.get(perSub).getPre().removeAll(tempMeetList);
                     if (this.courses.get(perSub).getPreSize() == 0) {
                         this.availCourses.add(perSub);
-                        this.flagTree.put(perSub, 2);
+                        this.flagTree.put(perSub, State.AVAILABLE);
                     }
                 }
             }
         }
         for (String basic : this.basicCourses) {
-            if (this.flagTree.get(basic) == 0) {
+            if (this.flagTree.get(basic) == State.NONE) {
                 this.availCourses.add(basic);
-                this.flagTree.put(basic, 2);
+                this.flagTree.put(basic, State.AVAILABLE);
             }
         }
     }
@@ -213,7 +217,7 @@ public class CourseTree {
         // First remove the course from availCourses and add that to finishedCourses
         this.availCourses.remove(selectCourse);
         this.finishedCourses.add(selectCourse);
-        this.flagTree.put(selectCourse, 1);
+        this.flagTree.put(selectCourse, State.FINISHED);
         // Now it is necessary to check all the sub course of the new updated course
         ArrayList<String> newcourSub = this.courses.get(selectCourse).getSub();
         System.out.println("All the subCourses of " + selectCourse + " are "
@@ -221,13 +225,13 @@ public class CourseTree {
         for (int i = 0; i < newcourSub.size(); i++) {
             String perSub = newcourSub.get(i);
             // Determine if this subCourse has been marked
-            if (this.flagTree.get(perSub) == 0) {
+            if (this.flagTree.get(perSub) == State.NONE) {
                 ArrayList<String> subPreList = this.courses.get(perSub)
                         .getPre();
                 ArrayList<String> tempMeetList = new ArrayList<String>();
                 // Find all the meet prerequisite courses
                 for (int j = 0; j < subPreList.size(); j++) {
-                    if (this.flagTree.get(subPreList.get(j)) == 1) {
+                    if (this.flagTree.get(subPreList.get(j)) == State.FINISHED) {
                         tempMeetList.add(subPreList.get(j));
                     }
                 }
@@ -235,7 +239,7 @@ public class CourseTree {
                 this.courses.get(perSub).getPre().removeAll(tempMeetList);
                 if (this.courses.get(perSub).getPreSize() == 0) {
                     this.availCourses.add(perSub);
-                    this.flagTree.put(perSub, 2);
+                    this.flagTree.put(perSub, State.AVAILABLE);
                 }
             }
         }
