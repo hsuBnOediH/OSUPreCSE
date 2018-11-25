@@ -213,7 +213,23 @@ final public class CourseTree {
         }
     }
 
+
+    public boolean  undoable(){
+        return !this.finishedCourses.isEmpty();
+    }
+
     public void undo(){
+        String undoCourse  = this.finishedCourses.pop();
+        this.flagTree.put(undoCourse,State.AVAILABLE);
+        ArrayList <String>subList = this.courses.get(undoCourse).getSub();
+
+        for(String sub : subList){
+            if(this.availCourses.contains(sub)){
+                this.availCourses.remove(sub);
+                this.flagTree.put(sub,State.NONE);
+            }
+        }
+
         
     }
     public void addCourse(String selectCourse) {
@@ -244,19 +260,4 @@ final public class CourseTree {
     }
 }
 
-//// Get the pre course list for this specific course node
-//ArrayList<String> pre = this.courses.get(i).getPre();
-//// Delete all the prerequisite of all the next courses
-//for (String subName : pre) {
-//  int j = 0;
-//  // Get one course node from the next course lists
-//  while (!this.courses.get(j).getName().equals(subName)) {
-//      j++;
-//  }
-//  // Update nextNode.pre by deleting the course node set.name
-//  this.courses.get(j).deleteSub(name);
-//  if (this.courses.get(j).getSub().size() == 0) {
-//      this.courses.remove(j);
-//  }
-//}
-//this.courses.remove(i);
+
