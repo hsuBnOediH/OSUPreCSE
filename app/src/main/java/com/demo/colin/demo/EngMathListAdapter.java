@@ -28,11 +28,11 @@ public class EngMathListAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
         isSelected  = new HashMap<>();
         this.selectedMap = selectedMap;
-        initDate();
+        initData();
     }
 
     // 初始化记录static map
-    private void initDate() {
+    private void initData() {
         for (int i = 0; i < contextList.size(); i++) {
             // 所有选项都在未选中状态
             getIsSelected().put(i,false);
