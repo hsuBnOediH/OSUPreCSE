@@ -14,9 +14,13 @@ import java.util.HashSet;
 
 public class PreCSEActivity extends AppCompatActivity {
 
-    // 创建adapter
+    /**
+     *  Create an ApListAdapter adapter
+     */
     private ApListAdapter apListAdapter;
-    // 创建选项的arrayList
+    /**
+     * Create an arrayList to contain the options of available courses hints
+     */
     private ArrayList<String> contextList;
 
     @Override
@@ -24,19 +28,18 @@ public class PreCSEActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_cse);
 
-        // 找到List View
+        /* Declare the listView by finding the listView in layout */
         ListView listView = findViewById(R.id.ap_checkbox_list);
-        //选项 array List
+        /* Initialize the ArrayList contextList */
         contextList = new ArrayList<>();
-        // 选项插入
         initData();
-        // 记录的选项选中的Map
+        /* Declare an map for recording the selections of the user */
         HashMap<Integer, Boolean> satisfyClass = new HashMap<>();
-        // 实体化Adapter
+        /* Instantiate the adapter for apListAdapter */
         apListAdapter = new ApListAdapter(contextList, this, satisfyClass);
-        // 关联ListView 和adapter
+        /* Set up listView using apListAdapter */
         listView.setAdapter(apListAdapter);
-        // 选项被选中的反应函数
+        /* Set listener for items in listView */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -46,13 +49,19 @@ public class PreCSEActivity extends AppCompatActivity {
                 dataChanged();
             }
         });
-        // 下一步的按钮设置 和响应函数
+        /* Declare button to next page */
         Button nextStep = findViewById(R.id.ap_confirm_button);
         nextStep.setOnClickListener(nextStepListener);
     }
 
+    /**
+     * @requires
+     * contextList != null
+     * @ensures <pre>
+     *     contextList contains and only contain the string listed below
+     * </pre>
+     */
     private void initData() {
-        // 加入ListView 的选项
         contextList.add("我的Computer Science A 大于等于3分");
         contextList.add("我的Calculus AB 大于等于3 分");
         contextList.add("我的Calculus BC 大于等于3 分");
@@ -62,7 +71,14 @@ public class PreCSEActivity extends AppCompatActivity {
         contextList.add("我是非英语母语的国际学生");
     }
 
-    // 选项变化后 更新展示的内容
+
+    /**
+     * @requires
+     * this.apListAdapter != null
+     * @ensures <pre>
+     *     this.apListAdapter =<update items in this.context>
+     * </pre>
+     */
     private void dataChanged() {
         apListAdapter.notifyDataSetChanged();
     }

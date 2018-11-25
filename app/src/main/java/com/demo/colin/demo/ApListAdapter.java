@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,14 +15,14 @@ public class ApListAdapter extends BaseAdapter {
     private static HashMap<Integer,Boolean> isSelected;
     private LayoutInflater inflater ;
     private HashMap<Integer,Boolean> selectedMap;
-    public final class ViewHolder{
+    final class ViewHolder{
          TextView tv;
          CheckBox cb ;
     }
 
 
     // constructor 函数
-    public ApListAdapter(ArrayList<String> contextList, Context context, HashMap<Integer,Boolean>selectedMap){
+    ApListAdapter(ArrayList<String> contextList, Context context, HashMap<Integer, Boolean> selectedMap){
         this.contextList = contextList;
         inflater = LayoutInflater.from(context);
         isSelected  = new HashMap<>();
