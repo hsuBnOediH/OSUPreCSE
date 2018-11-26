@@ -27,7 +27,6 @@ public class PreCSEActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_cse);
-
         /* Declare the listView by finding the listView in layout */
         ListView listView = findViewById(R.id.ap_checkbox_list);
         /* Initialize the ArrayList contextList */
@@ -83,19 +82,25 @@ public class PreCSEActivity extends AppCompatActivity {
         apListAdapter.notifyDataSetChanged();
     }
 
-    // 下一步按键的响应函数
+   /* Declare button listener for button to next step */
     Button.OnClickListener nextStepListener = new Button.OnClickListener() {
+        /*Response method of listener*/
         public void onClick(View v) {
-            //跳转下一个的页面
+            /*Build path to next activity*/
             Intent jumpPre = new Intent(com.demo.colin.demo.PreCSEActivity.this, EnglishActivity.class);
-
-            // pass set 到下一个页面
+            /*Pass the set named Set to next activity */
             jumpPre.putExtra("Set", getSatisfySet(apListAdapter.getSelectedMap()));
-            //jump 页面
+            /*Jump to next activity*/
             startActivity(jumpPre);
         }
     };
 
+    /**
+     * Translate the selected map into set for passing between activity
+     *
+     * @param map   Selected map form the AP list adapter
+     * @return  Set     A translated selected choice form map
+     */
     private HashSet<String> getSatisfySet(HashMap<Integer, Boolean> map) {
         HashSet<String> set = new HashSet<>();
         if (map.get(0)) set.add("CSE1223");

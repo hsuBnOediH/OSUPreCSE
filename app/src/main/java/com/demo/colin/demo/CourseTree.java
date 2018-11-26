@@ -1,20 +1,43 @@
 package com.demo.colin.demo;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
+
+/**
+ * Enum to represent the state of course
+ */
 enum State {
-    FINISHED, AVAILABLE, NONE;
+    /**
+     * Course in state finished
+     */
+    FINISHED,
+    /**
+     * Course in state available
+     */
+    AVAILABLE,
+    /**
+     * Course in state never reach
+     */
+    NONE
 }
 
+/**
+ * Forest Courses List
+ */
 final public class CourseTree {
-
+    /*Map contains all the Courses name the course objects*/
     private HashMap<String, Course> courses;
+    /*Map contains all the Courses and State*/
     private HashMap<String, State> flagTree;
+    /*Finished Course in adding order*/
     private Stack<String> finishedCourses;
+    /*Set contains all the courses available for adding next step*/
     private HashSet<String> availCourses;
+    /*jackass*/
     private HashSet<String> basicCourses;
 
 
@@ -212,24 +235,25 @@ final public class CourseTree {
     }
 
 
-    public boolean  undoable(){
+    public boolean undoable() {
         return !this.finishedCourses.isEmpty();
     }
 
-    public void undo(){
-        String undoCourse  = this.finishedCourses.pop();
-        this.flagTree.put(undoCourse,State.AVAILABLE);
-        ArrayList <String>subList = this.courses.get(undoCourse).getSub();
+    public void undo() {
+        String undoCourse = this.finishedCourses.pop();
+        this.flagTree.put(undoCourse, State.AVAILABLE);
+        ArrayList<String> subList = this.courses.get(undoCourse).getSub();
 
-        for(String sub : subList){
-            if(this.availCourses.contains(sub)){
+        for (String sub : subList) {
+            if (this.availCourses.contains(sub)) {
                 this.availCourses.remove(sub);
-                this.flagTree.put(sub,State.NONE);
+                this.flagTree.put(sub, State.NONE);
             }
         }
 
-        
+
     }
+
     public void addCourse(String selectCourse) {
         // First remove the course from availCourses and add that to finishedCourses
         this.availCourses.remove(selectCourse);
@@ -239,12 +263,12 @@ final public class CourseTree {
         ArrayList<String> newCourseSub = this.courses.get(selectCourse).getSub();
         for (String subClass : newCourseSub) {
             // Determine if this subCourse has been marked
-                ArrayList<String> subPreList = this.courses.get(subClass)
-                        .getPre();
-                if(couldBeAvailable(subPreList)){
-                    this.flagTree.put(subClass,State.AVAILABLE);
-                }
+            ArrayList<String> subPreList = this.courses.get(subClass)
+                    .getPre();
+            if (couldBeAvailable(subPreList)) {
+                this.flagTree.put(subClass, State.AVAILABLE);
             }
+        }
     }
 
     private boolean couldBeAvailable(ArrayList<String> subPreList) {
