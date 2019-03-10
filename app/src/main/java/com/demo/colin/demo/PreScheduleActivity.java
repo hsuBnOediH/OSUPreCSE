@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,18 +18,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 
 public class PreScheduleActivity extends Activity implements View.OnDragListener, View.OnLongClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private TextView textView;
-    private Button button;
-    private ImageView imageView;
-    private static final String IMAGE_VIEW_TAG = "LAUNCHER LOGO";
+    private ArrayList<TextView> coureTextList = new ArrayList<>();
+   // private static final String IMAGE_VIEW_TAG = "LAUNCHER LOGO";
     private static final String TEXT_VIEW_TAG = "DRAG TEXT";
-    private static final String BUTTON_VIEW_TAG = "DRAG BUTTON";
+   // private static final String BUTTON_VIEW_TAG = "DRAG BUTTON";
 
 
 
@@ -36,7 +36,6 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_schedule);
-
         Intent intent = getIntent();
         HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
         CourseTree courseTree = new CourseTree();
@@ -47,24 +46,30 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     }
 
     private void findViews(CourseTree courseTree) {
-        textView = (TextView) findViewById(R.id.label);
-        textView.setText(courseTree.printAvail());
-        textView.setTag(TEXT_VIEW_TAG);
-        imageView = (ImageView) findViewById(R.id.image_view);
-        imageView.setTag(IMAGE_VIEW_TAG);
-        button = (Button) findViewById(R.id.button);
-        button.setText(courseTree.printAvail());
-        button.setTag(BUTTON_VIEW_TAG);
+
+
+        LinearLayout  top = findViewById(R.id.top_layout);
+        HashSet<String>  avaliCourse = new HashSet<>();
+        avaliCourse = courseTree.getAvailCourse();
+        for(String course : avaliCourse){
+            TextView textView = new TextView(this);
+            textView.setText(course);
+            textView.setTextSize(20);
+            textView.setTextColor(Color.BLACK);
+            textView.setGravity(Gravity.CENTER_HORIZONTAL);
+            top.addView(textView);
+            this.coureTextList.add(textView);
+            textView.setTag(TEXT_VIEW_TAG);
+        }
     }
 
 
     //Implement long click and drag listener
     private void implementEvents() {
         //add or remove any view that you don't want to be dragged
-        textView.setOnLongClickListener(this);
-        imageView.setOnLongClickListener(this);
-        button.setOnLongClickListener(this);
-
+        for(TextView tv : this.coureTextList){
+            tv.setOnLongClickListener(this);
+        }
         //add or remove any layout view that you don't want to accept dragged view
         findViewById(R.id.top_layout).setOnDragListener(this);
         findViewById(R.id.left_layout).setOnDragListener(this);
@@ -88,7 +93,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
 
         // Instantiates the drag shadow builder.
-        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+       View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
 
         // Starts the drag
         view.startDrag(data//data to be dragged
