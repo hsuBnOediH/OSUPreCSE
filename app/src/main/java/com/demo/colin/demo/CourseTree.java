@@ -49,6 +49,11 @@ final public class CourseTree {
         this.availCourses = new HashSet<>();
     }
 
+    // Getter: return the this.available course
+    public HashSet<String> getAvailCourse() {
+        return this.availCourses;
+    }
+
     public String printAvail() {
         return this.availCourses.toString();
     }
