@@ -180,52 +180,67 @@ final public class CourseTree {
         return res;
     }
 
-    private void markAllPre(String botCourse) {
-        if (this.flagTree.get(botCourse) == State.NONE) {
+    /*
+     *  Mark one of the courses that the student has finished and also mark all the pre-course(s)
+     *  for each finished course. This method using Recursion to finish the process.
+     */
+    private void markAllPre(String finished_course) {
+        if (this.flagTree.get(finished_course) == State.NONE) {
             // This course should be marked now;
-            this.flagTree.put(botCourse, State.FINISHED);
+            this.flagTree.put(finished_course, State.FINISHED);
             // Get the child course list for this specific course node
-            ArrayList<String> pre = this.courses.get(botCourse).getPre();
+            ArrayList<String> pre_courses = this.courses.get(finished_course).getPre();
             // make all its prerequisite courses marked
-            for (String preName : pre) {
-                this.markAllPre(preName);
-                // this.courses.get(preName).deleteAllPre();
+            for (String pre_course : pre_courses) {
+                this.markAllPre(pre_course);
             }
         }
     }
 
-    public void firstMarkAndAddAll(HashSet<String> set) {
+    /*
+     *  Mark all the courses that the student has finished
+     */
+    public void firstMarkAndAddAll(HashSet<String> finished_courses) {
         // Keep the records of the finished courses of the students
-        this.finishedCourses.addAll(set);
-        for (String name : set) {
-            this.markAllPre(name);
-            // Clear all the prerequisite courses of this finished course
-            // this.courses.get(name).deleteAllPre();
+        this.finishedCourses.addAll(finished_courses);
+        // Mark all the prerequisite courses of the individual finished course and the individual
+        // course itself to FINISHED STATE
+        for (String course : finished_courses) {
+            this.markAllPre(course);
         }
-        for (String current : set) {
-            ArrayList<String> curretnSub = this.courses.get(current).getSub();
-            for (int i = 0; i < curretnSub.size(); i++) {
-                String perSub = curretnSub.get(i);
-                // Determine if this subCourse has been marked
-                if (this.flagTree.get(perSub) == State.NONE) {
-                    ArrayList<String> subPreList = this.courses.get(perSub)
-                            .getPre();
+        // Mark all the sub courses of the individual finished course to AVAILABLE STATE
+        for (String course : finished_courses) {
+            ArrayList<String> sub_courses = this.courses.get(course).getSub();
+            /*
+             * Determine if all the sub_courses can be selected by the student one by one: if the
+             * single subCourse has been marked before since it's possible that two finished course
+             * both have the same sub_course(s) which may be marked in the one of the two courses
+             * (may be in this course's sub_courses or the other finished courses' sub_courses).
+             */
+            for (int i = 0; i < sub_courses.size(); i++) {
+                String sub_course = sub_courses.get(i);
+                if (this.flagTree.get(sub_course) == State.NONE) {
+                    ArrayList<String> subPreList = this.courses.get(sub_course).getPre();
                     ArrayList<String> tempMeetList = new ArrayList<String>();
-                    // Find all the meet prerequisite courses
+                    // Find all the equivalent prerequisite courses like MATH 2153 has two kinds of
+                    // prerequisite course-MATH 1152 OR MATH 1172
                     for (int j = 0; j < subPreList.size(); j++) {
                         if (this.flagTree.get(subPreList.get(j)) == State.FINISHED) {
                             tempMeetList.add(subPreList.get(j));
                         }
                     }
-                    // Delete them from this sub course
-                    this.courses.get(perSub).getPre().removeAll(tempMeetList);
-                    if (this.courses.get(perSub).getPreSize() == 0) {
-                        this.availCourses.add(perSub);
-                        this.flagTree.put(perSub, State.AVAILABLE);
+                    // Remove the contemporary finished prerequisite courses from this individual
+                    // sub_course and finally determine if this sub_course can be selected and
+                    // then change its state to be AVAILABLE
+                    this.courses.get(sub_course).getPre().removeAll(tempMeetList);
+                    if (this.courses.get(sub_course).getPreSize() == 0) {
+                        this.availCourses.add(sub_course);
+                        this.flagTree.put(sub_course, State.AVAILABLE);
                     }
                 }
             }
         }
+        // Finally,enable all the basic courses to be selected if the student didn't take them
         for (String basic : this.basicCourses) {
             if (this.flagTree.get(basic) == State.NONE) {
                 this.availCourses.add(basic);
