@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 
@@ -47,18 +48,13 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     private LinearLayout botRightLayout;
     private LinearLayout botLeftLayout;
 
+    ArrayList<ListView> listViewsArray = new ArrayList<>();
+    ArrayList<LinearLayout> layoutsArray = new ArrayList<>();
+    HashMap<ListView, AvaListAdapter> lvAdaMap = new HashMap<>();
+    HashMap<LinearLayout, AvaListAdapter> layAdaMap = new HashMap<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pre_schedule);
 
-        Intent intent = getIntent();
-        HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
-        CourseTree courseTree = new CourseTree();
-        courseTree.firstMarkAndAddAll(set);
-        avaliCourse = courseTree.getAvailCourse();
-
+    private void findId() {
         avaLayout = findViewById(R.id.sch_ava_layout);
         topLeftLayout = findViewById(R.id.sch_sem_top_left_layout);
         topRightLayout = findViewById(R.id.sch_sem_top_right_layout);
@@ -67,10 +63,9 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
         avaListView = findViewById(R.id.schedule_ava_list_view);
         topLeftListView = findViewById(R.id.sch_sem_top_left_list_view);
-        topRightListView= findViewById(R.id.sch_sem_top_right_list_view);
+        topRightListView = findViewById(R.id.sch_sem_top_right_list_view);
         botLeftListView = findViewById(R.id.sch_sem_bot_left_list_view);
         botRightListView = findViewById(R.id.sch_sem_bot_right_list_view);
-
 
         avaListAdapter = new AvaListAdapter(avaliCourse, this);
         coureListTopLeft = new AvaListAdapter(new HashSet<String>(), this);
@@ -84,24 +79,47 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         botLeftListView.setAdapter(coureListBotLeft);
         avaListView.setAdapter(avaListAdapter);
 
-        ArrayList<ListView> listViewsArray = new ArrayList<>();
         listViewsArray.add(topLeftListView);
         listViewsArray.add(topRightListView);
         listViewsArray.add(botLeftListView);
         listViewsArray.add(botRightListView);
         listViewsArray.add(avaListView);
 
-        ArrayList<LinearLayout> layoutsArray = new ArrayList<>();
         layoutsArray.add(topLeftLayout);
         layoutsArray.add(topRightLayout);
         layoutsArray.add(botLeftLayout);
         layoutsArray.add(botRightLayout);
         layoutsArray.add(avaLayout);
 
-        for(ListView lv: listViewsArray){
-            setItemLongClickLisener(lv);
-        }
-        implementEvents(layoutsArray);
+        lvAdaMap.put(avaListView, avaListAdapter);
+        lvAdaMap.put(topLeftListView, coureListTopLeft);
+        lvAdaMap.put(topRightListView, coureListTopRight);
+        lvAdaMap.put(botLeftListView, coureListBotLeft);
+        lvAdaMap.put(botRightListView, coureListBotRight);
+
+        layAdaMap.put(avaLayout, avaListAdapter);
+        layAdaMap.put(topRightLayout, coureListTopLeft);
+        layAdaMap.put(topLeftLayout, coureListTopRight);
+        layAdaMap.put(botLeftLayout, coureListBotLeft);
+        layAdaMap.put(botRightLayout, coureListBotRight);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pre_schedule);
+
+        Intent intent = getIntent();
+        HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
+        CourseTree courseTree = new CourseTree();
+        courseTree.firstMarkAndAddAll(set);
+        avaliCourse = courseTree.getAvailCourse();
+
+
+        findId();
+
+
+        implementEvents();
 
     }
 
@@ -142,10 +160,15 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
 
     //Implement long click and drag listener
-    private void implementEvents(ArrayList<LinearLayout> linearLayouts) {
-      for(LinearLayout linearLayout : linearLayouts){
-          linearLayout.setOnDragListener(this);
-      }
+    private void implementEvents() {
+
+        for (ListView lv : listViewsArray) {
+            setItemLongClickLisener(lv);
+        }
+
+        for (LinearLayout linearLayout : layoutsArray) {
+            linearLayout.setOnDragListener(this);
+        }
     }
 
     @Override
@@ -252,14 +275,15 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
                 LinearLayout newLinearLayout = (LinearLayout) view;
 
-                if (oldListView.equals(avaListView)) {
-                    if (newLinearLayout.equals(topLeftLayout)) {
-                        TextView textView = itemInList.findViewById(R.id.sch_ava_item_text);
-                        String coureName = textView.getText().toString();
-                        avaListAdapter.remove(coureName);
-                        coureListTopLeft.add(coureName);
-                    }
-                }
+
+                AvaListAdapter removeItem = lvAdaMap.get(oldListView);
+                AvaListAdapter addItem = layAdaMap.get(newLinearLayout);
+
+                TextView textView = itemInList.findViewById(R.id.sch_ava_item_text);
+                String coureName = textView.getText().toString();
+                avaListAdapter.remove(coureName);
+                coureListTopLeft.add(coureName);
+
 //                TextView tv = itemInList.findViewById(R.id.sch_ava_item_text);
 //                avaListAdapter.remove(tv.getText().toString());
 //
