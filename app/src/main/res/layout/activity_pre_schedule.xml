@@ -12,8 +12,14 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/blue"
-        android:gravity="top|center"
         android:orientation="vertical">
+        <ListView
+            android:id="@+id/schedule_ava_list_view_top"
+            android:longClickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
 
 
     </LinearLayout>
@@ -32,8 +38,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:orientation="vertical" />
+            android:orientation="vertical" >
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/schedule_ava_list_view_left"></ListView>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/right_layout"
@@ -41,8 +51,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorAccent"
-            android:gravity="center"
-            android:orientation="vertical" />
+            android:orientation="vertical" >
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/schedule_ava_list_view_right"></ListView>
+        </LinearLayout>
     </LinearLayout>
 
 

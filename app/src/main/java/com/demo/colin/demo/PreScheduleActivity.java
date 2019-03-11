@@ -7,14 +7,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +26,17 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private ArrayList<TextView> coureTextList = new ArrayList<>();
-   // private static final String IMAGE_VIEW_TAG = "LAUNCHER LOGO";
     private static final String TEXT_VIEW_TAG = "DRAG TEXT";
-   // private static final String BUTTON_VIEW_TAG = "DRAG BUTTON";
+    private HashSet<String> avaliCourse = new HashSet<>();
+    private AvaListAdapter avaListAdapter;
+    private AvaListAdapter avaListAdapterLeft;
+    private AvaListAdapter avaListAdapterRight;
+    private ListView topListView;
+    private ListView rightListView;
+    private ListView leftListView;
+    private LinearLayout topLayout;
+    private LinearLayout leftLayout;
+    private LinearLayout rightLayout;
 
 
 
@@ -36,10 +44,64 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_schedule);
+
         Intent intent = getIntent();
         HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
         CourseTree courseTree = new CourseTree();
         courseTree.firstMarkAndAddAll(set);
+        avaliCourse = courseTree.getAvailCourse();
+
+        topLayout = findViewById(R.id.top_layout);
+        leftLayout = findViewById(R.id.left_layout);
+        rightLayout = findViewById(R.id.right_layout);
+
+        topListView = findViewById(R.id.schedule_ava_list_view_top);
+        leftListView = findViewById(R.id.schedule_ava_list_view_left);
+        rightListView = findViewById(R.id.schedule_ava_list_view_right);
+
+        avaListAdapter = new AvaListAdapter(avaliCourse, this);
+        avaListAdapterLeft = new AvaListAdapter(new HashSet<String>(), this);
+        avaListAdapterRight = new AvaListAdapter(new HashSet<String>(), this);
+
+        topListView.setAdapter(avaListAdapter);
+        leftListView.setAdapter(avaListAdapterLeft);
+        rightListView.setAdapter(avaListAdapterRight);
+
+
+        topListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View view,
+                                           int pos, long id) {
+                // Create a new ClipData.
+                // This is done in two steps to provide clarity. The convenience method
+                // ClipData.newPlainText() can create a plain text ClipData in one step.
+
+                // Create a new ClipData.Item from the ImageView object's tag
+                ClipData.Item item = new ClipData.Item((CharSequence) view.getTag());
+
+                // Create a new ClipData using the tag as a label, the plain text MIME type, and
+                // the already-created item. This will create a new ClipDescription object within the
+                // ClipData, and set its MIME type entry to "text/plain"
+                String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
+
+                ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
+
+                // Instantiates the drag shadow builder.
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+
+                // Starts the drag
+                view.startDrag(data//data to be dragged
+                        , shadowBuilder //drag shadow
+                        , view//local data about the drag and drop operation
+                        , 0//no needed flags
+                );
+
+                //Set view visibility to INVISIBLE as we are going to drag the view
+                return true;
+            }
+        });
+
+
         findViews(courseTree);
         implementEvents();
 
@@ -48,10 +110,9 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     private void findViews(CourseTree courseTree) {
 
 
-        LinearLayout  top = findViewById(R.id.top_layout);
-        HashSet<String>  avaliCourse = new HashSet<>();
-        avaliCourse = courseTree.getAvailCourse();
-        for(String course : avaliCourse){
+        LinearLayout top = findViewById(R.id.top_layout);
+
+        for (String course : avaliCourse) {
             TextView textView = new TextView(this);
             textView.setText(course);
             textView.setTextSize(20);
@@ -67,10 +128,13 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     //Implement long click and drag listener
     private void implementEvents() {
         //add or remove any view that you don't want to be dragged
-        for(TextView tv : this.coureTextList){
+        for (TextView tv : this.coureTextList) {
             tv.setOnLongClickListener(this);
         }
+
         //add or remove any layout view that you don't want to accept dragged view
+
+
         findViewById(R.id.top_layout).setOnDragListener(this);
         findViewById(R.id.left_layout).setOnDragListener(this);
         findViewById(R.id.right_layout).setOnDragListener(this);
@@ -93,7 +157,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
 
         // Instantiates the drag shadow builder.
-       View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
 
         // Starts the drag
         view.startDrag(data//data to be dragged
@@ -103,10 +167,8 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         );
 
         //Set view visibility to INVISIBLE as we are going to drag the view
-        view.setVisibility(View.INVISIBLE);
         return true;
     }
-
 
 
     // This is the method that the system calls when it dispatches a drag event to the
@@ -169,8 +231,6 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 // Gets the text data from the item.
                 String dragData = item.getText().toString();
 
-                // Displays a message containing the dragged data.
-                Toast.makeText(this, "Dragged data is " + dragData, Toast.LENGTH_SHORT).show();
 
                 // Turns off any color tints
                 view.getBackground().clearColorFilter();
@@ -178,12 +238,28 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 // Invalidates the view to force a redraw
                 view.invalidate();
 
-                View v = (View) event.getLocalState();
-                ViewGroup owner = (ViewGroup) v.getParent();
-                owner.removeView(v);//remove the dragged view
-                LinearLayout container = (LinearLayout) view;//caste the view into LinearLayout as our drag acceptable layout is LinearLayout
-                container.addView(v);//Add the dragged view
-                v.setVisibility(View.VISIBLE);//finally set Visibility to VISIBLE
+                View itemInList = (View) event.getLocalState();
+
+                ListView oldListView = (ListView) itemInList.getParent();
+
+                LinearLayout newLinearLayout =  (LinearLayout)view;
+
+                if(oldListView.equals(topListView)){
+                    if(newLinearLayout.equals(leftLayout)){
+                        TextView textView = itemInList.findViewById(R.id.sch_ava_item_text);
+                        String coureName = textView.getText().toString();
+                        avaListAdapter.remove(coureName);
+                        avaListAdapterLeft.add(coureName);
+                    }
+                }
+//                TextView tv = itemInList.findViewById(R.id.sch_ava_item_text);
+//                avaListAdapter.remove(tv.getText().toString());
+//
+//                LinearLayout container = (LinearLayout) view;//caste the view into LinearLayout as our drag acceptable layout is LinearLayout
+//                String clas = container.getClass().toString();
+//
+//                container.addView(tv);//Add the dragged view
+//                itemInList.setVisibility(View.VISIBLE);//finally set Visibility to VISIBLE
 
                 // Returns true. DragEvent.getResult() will return true.
                 return true;
@@ -195,11 +271,13 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 view.invalidate();
 
                 // Does a getResult(), and displays what happened.
-                if (event.getResult())
-                    Toast.makeText(this, "The drop was handled.", Toast.LENGTH_SHORT).show();
+                if (event.getResult()) {
+                }
+                // Toast.makeText(this, "The drop was handled.", Toast.LENGTH_SHORT).show();
 
-                else
-                    Toast.makeText(this, "The drop didn't work.", Toast.LENGTH_SHORT).show();
+                else {
+                }
+                // Toast.makeText(this, "The drop didn't work.", Toast.LENGTH_SHORT).show();
 
 
                 // returns true; the value is ignored.
