@@ -19,7 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Stack;
 
 
 public class PreScheduleActivity extends Activity implements View.OnDragListener, View.OnLongClickListener {
@@ -31,6 +34,9 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
    // private static final String BUTTON_VIEW_TAG = "DRAG BUTTON";
 
 
+   /*CoursesTree which contains all the courese information and user selection*/
+    private CourseTree courseTree=new CourseTree();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +44,8 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         setContentView(R.layout.activity_pre_schedule);
         Intent intent = getIntent();
         HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
-        CourseTree courseTree = new CourseTree();
-        courseTree.firstMarkAndAddAll(set);
-        findViews(courseTree);
+        this.courseTree.firstMarkAndAddAll(set);
+        findViews(this.courseTree);
         implementEvents();
 
     }
@@ -185,8 +190,25 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 container.addView(v);//Add the dragged view
                 v.setVisibility(View.VISIBLE);//finally set Visibility to VISIBLE
 
+                TextView dropped = (TextView) v;
+                HashSet<String> newAvailableCourse = this.courseTree.updateFinishedCourse(dropped.getText().toString());
+                LinearLayout top = findViewById(R.id.top_layout);
+                for(String course : newAvailableCourse){
+                    TextView textView = new TextView(this);
+                    textView.setText(course);
+                    textView.setTextSize(20);
+                    textView.setTextColor(Color.BLACK);
+                    textView.setGravity(Gravity.CENTER_HORIZONTAL);
+                    top.addView(textView);
+                    this.coureTextList.add(textView);
+                    textView.setTag(TEXT_VIEW_TAG);
+                    textView.setOnLongClickListener(this);
+                    view.setVisibility(View.VISIBLE);//finally set Visibility to
+                }
+
                 // Returns true. DragEvent.getResult() will return true.
                 return true;
+
             case DragEvent.ACTION_DRAG_ENDED:
                 // Turns off any color tinting
                 view.getBackground().clearColorFilter();
@@ -211,6 +233,10 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 break;
         }
         return false;
+    }
+
+    public HashSet<String> updateSelection(String selectedCourse) {
+       return this.courseTree.updateFinishedCourse(selectedCourse);
     }
 
 
