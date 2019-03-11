@@ -44,15 +44,15 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         ListView botRightListView = findViewById(R.id.sch_sem_bot_right_list_view);
 
         AvaListAdapter avaListAdapter = new AvaListAdapter(availCourse, this);
-        AvaListAdapter coureListTopLeft = new AvaListAdapter(new HashSet<String>(), this);
-        AvaListAdapter coureListTopRight = new AvaListAdapter(new HashSet<String>(), this);
-        AvaListAdapter coureListBotLeft = new AvaListAdapter(new HashSet<String>(), this);
-        AvaListAdapter coureListBotRight = new AvaListAdapter(new HashSet<String>(), this);
+        AvaListAdapter courseListTopLeft = new AvaListAdapter(new HashSet<String>(), this);
+        AvaListAdapter courseListTopRight = new AvaListAdapter(new HashSet<String>(), this);
+        AvaListAdapter courseListBotLeft = new AvaListAdapter(new HashSet<String>(), this);
+        AvaListAdapter courseListBotRight = new AvaListAdapter(new HashSet<String>(), this);
 
-        topRightListView.setAdapter(coureListTopRight);
-        topLeftListView.setAdapter(coureListTopLeft);
-        botRightListView.setAdapter(coureListBotRight);
-        botLeftListView.setAdapter(coureListBotLeft);
+        topRightListView.setAdapter(courseListTopRight);
+        topLeftListView.setAdapter(courseListTopLeft);
+        botRightListView.setAdapter(courseListBotRight);
+        botLeftListView.setAdapter(courseListBotLeft);
         avaListView.setAdapter(avaListAdapter);
 
         listViewsArray.add(topLeftListView);
@@ -68,16 +68,16 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         layoutsArray.add(avaLayout);
 
         lvAdaMap.put(avaListView, avaListAdapter);
-        lvAdaMap.put(topLeftListView, coureListTopLeft);
-        lvAdaMap.put(topRightListView, coureListTopRight);
-        lvAdaMap.put(botLeftListView, coureListBotLeft);
-        lvAdaMap.put(botRightListView, coureListBotRight);
+        lvAdaMap.put(topLeftListView, courseListTopLeft);
+        lvAdaMap.put(topRightListView, courseListTopRight);
+        lvAdaMap.put(botLeftListView, courseListBotLeft);
+        lvAdaMap.put(botRightListView, courseListBotRight);
 
         layAdaMap.put(avaLayout, avaListAdapter);
-        layAdaMap.put(topLeftLayout, coureListTopLeft);
-        layAdaMap.put(topRightLayout, coureListTopRight);
-        layAdaMap.put(botLeftLayout, coureListBotLeft);
-        layAdaMap.put(botRightLayout, coureListBotRight);
+        layAdaMap.put(topLeftLayout, courseListTopLeft);
+        layAdaMap.put(topRightLayout, courseListTopRight);
+        layAdaMap.put(botLeftLayout, courseListBotLeft);
+        layAdaMap.put(botRightLayout, courseListBotRight);
     }
 
     @Override
@@ -217,6 +217,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
                 AvaListAdapter removeItem = lvAdaMap.get(oldListView);
                 AvaListAdapter addItem = layAdaMap.get(newLinearLayout);
+
 
                 TextView textView = itemInList.findViewById(R.id.sch_ava_item_text);
                 String courseName = textView.getText().toString();
