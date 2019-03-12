@@ -295,7 +295,7 @@ final public class CourseTree {
                 }
                 // Finally determine if this sub_course can be selected and
                 // then change its state to be AVAILABLE
-                if (this.courses.get(sub_course).getPreSize() == 0) {
+                if (this.courses.get(sub_course).getPreSize() <= 0) {
                     this.availCourses.add(sub_course);
                     this.flagTree.put(sub_course, State.AVAILABLE);
                     newAvailableCourse.add(sub_course);
