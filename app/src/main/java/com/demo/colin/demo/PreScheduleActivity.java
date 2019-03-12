@@ -17,11 +17,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Stack;
 
 
 public class PreScheduleActivity extends Activity implements View.OnDragListener {
     /*CoursesTree which contains all the course information and user selection*/
-    private CourseTree courseTree=new CourseTree();
+    private CourseTree courseTree = new CourseTree();
     private HashSet<String> availCourse = new HashSet<>();
 
     ArrayList<ListView> listViewsArray = new ArrayList<>();
@@ -29,13 +30,16 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     HashMap<ListView, AvaListAdapter> lvAdaMap = new HashMap<>();
     HashMap<LinearLayout, AvaListAdapter> layAdaMap = new HashMap<>();
 
+    LinearLayout avaLayout;
+    LinearLayout topLeftLayout;
+    LinearLayout topRightLayout;
+    LinearLayout botLeftLayout;
+    LinearLayout botRightLayout;
+
+    Stack<LinearLayout> enterStack = new Stack<>();
 
     private void findId() {
-        LinearLayout avaLayout = findViewById(R.id.sch_ava_layout);
-        LinearLayout topLeftLayout = findViewById(R.id.sch_sem_top_left_layout);
-        LinearLayout topRightLayout = findViewById(R.id.sch_sem_top_right_layout);
-        LinearLayout botLeftLayout = findViewById(R.id.sch_sem_bot_left_layout);
-        LinearLayout botRightLayout = findViewById(R.id.sch_sem_bot_right_layout);
+
 
         ListView avaListView = findViewById(R.id.schedule_ava_list_view);
         ListView topLeftListView = findViewById(R.id.sch_sem_top_left_list_view);
@@ -54,6 +58,12 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         botRightListView.setAdapter(courseListBotRight);
         botLeftListView.setAdapter(courseListBotLeft);
         avaListView.setAdapter(avaListAdapter);
+
+        avaLayout = findViewById(R.id.sch_ava_layout);
+        topLeftLayout = findViewById(R.id.sch_sem_top_left_layout);
+        topRightLayout = findViewById(R.id.sch_sem_top_right_layout);
+        botLeftLayout = findViewById(R.id.sch_sem_bot_left_layout);
+        botRightLayout = findViewById(R.id.sch_sem_bot_right_layout);
 
         listViewsArray.add(topLeftListView);
         listViewsArray.add(topRightListView);
@@ -147,8 +157,6 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     }
 
 
-
-
     // This is the method that the system calls when it dispatches a drag event to the
     // listener.
     @Override
@@ -168,13 +176,29 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 // returns true to indicate that the View can accept the dragged data.
                 return event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN);
 
-                // Returns false. During the current drag and drop operation, this View will
-                // not receive events again until ACTION_DRAG_ENDED is sent.
+            // Returns false. During the current drag and drop operation, this View will
+            // not receive events again until ACTION_DRAG_ENDED is sent.
 
             case DragEvent.ACTION_DRAG_ENTERED:
                 // Applies a YELLOW or any color tint to the View, when the dragged view entered into drag acceptable view
                 // Return true; the return value is ignored.
-                view.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+                LinearLayout oldLayout = (LinearLayout) view;
+                if (enterStack.empty()) {
+
+                    view.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+                    enterStack.push(oldLayout);
+                } else {
+                    if (oldLayout.equals(avaLayout)) {
+                        view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+                    } else {
+//                        if(function return bool 能不能放){
+//                            view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+//
+//                        }
+                    }
+                }
+
+
                 // Invalidate the view to force a redraw in the new tint
                 view.invalidate();
 
@@ -194,6 +218,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
                 return true;
             case DragEvent.ACTION_DROP:
+                enterStack = new Stack<>();
                 // Gets the item containing the dragged data
                 ClipData.Item item = event.getClipData().getItemAt(0);
 
@@ -212,8 +237,6 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 ListView oldListView = (ListView) itemInList.getParent();
 
                 LinearLayout newLinearLayout = (LinearLayout) view;
-
-
                 AvaListAdapter removeItem = lvAdaMap.get(oldListView);
                 AvaListAdapter addItem = layAdaMap.get(newLinearLayout);
 
@@ -224,7 +247,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 addItem.add(courseName);
 
                 // Update the available course
-                if(oldListView==findViewById(R.id.schedule_ava_list_view) && newLinearLayout!=findViewById(R.id.sch_ava_layout)) {
+                if (oldListView == findViewById(R.id.schedule_ava_list_view) && newLinearLayout != findViewById(R.id.sch_ava_layout)) {
                     HashSet<String> newAvailableCourse = courseTree.updateFinishedCourse(courseName);
                     lvAdaMap.get(oldListView).updateAvailable(newAvailableCourse);
                 }
