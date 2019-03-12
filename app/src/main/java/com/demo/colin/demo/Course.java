@@ -7,8 +7,8 @@ public class Course {
     private ArrayList<String> sub = new ArrayList<>();
     private String courseName;
 
-    public Course(String courseName, ArrayList<String> pre,
-                  ArrayList<String> sub) {
+    Course(String courseName, ArrayList<String> pre,
+           ArrayList<String> sub) {
         this.courseName = courseName;
         this.pre.addAll(pre);
         this.sub.addAll(sub);

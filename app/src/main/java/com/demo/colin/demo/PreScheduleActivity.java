@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     LinearLayout botRightLayout;
 
     Stack<LinearLayout> enterStack = new Stack<>();
+
+    TrackDragTable trackDragTable;
 
     private static final String TEXT_VIEW_TAG = "DRAG TEXT";
 
@@ -103,6 +106,8 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         courseTree.firstMarkAndAddAll(set);
         availCourse = courseTree.getAvailCourse();
 
+        trackDragTable = new TrackDragTable();
+
 
         findId();
 
@@ -164,7 +169,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     // listener.
     @Override
     public boolean onDrag(View view, DragEvent event) {
-        String selectedCourse;
+        String selectedCourse= "";
         // Defines a variable to store the action type for the incoming event
         int action = event.getAction();
         // Handles each of the expected events
@@ -187,6 +192,17 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 // Applies a YELLOW or any color tint to the View, when the dragged view entered into drag acceptable view
                 // Return true; the return value is ignored.
                 LinearLayout curLayout = (LinearLayout) view;
+                int layoutPosition = 0;
+
+                if (curLayout.equals(topLeftLayout)){
+                    layoutPosition = 1;
+                }else if(curLayout.equals(topRightLayout)){
+                    layoutPosition = 2;
+                }else if(curLayout.equals(botLeftLayout)){
+                    layoutPosition = 3;
+                }else if(curLayout.equals(botRightLayout)){
+                    layoutPosition = 4;
+                }
                 if (enterStack.empty()) {
                     TextView selectedCourseTV = view.findViewWithTag(TEXT_VIEW_TAG).findViewById(R.id.sch_ava_item_text);
                     selectedCourse = selectedCourseTV.getText().toString();
@@ -196,9 +212,14 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                     if (curLayout.equals(avaLayout)) {
                         view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
                     } else {
-                        if(true){
-                            view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-
+                        if(trackDragTable.isDoableSem(selectedCourse,layoutPosition)){
+                            if(trackDragTable.isSuitableSem(selectedCourse,layoutPosition)){
+                                view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+                            }else{
+                                view.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+                            }
+                        }else{
+                            view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
                         }
                     }
                 }
@@ -246,10 +267,23 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 AvaListAdapter addItem = layAdaMap.get(newLinearLayout);
 
 
+
                 TextView textView = itemInList.findViewById(R.id.sch_ava_item_text);
                 String courseName = textView.getText().toString();
                 removeItem.remove(courseName);
                 addItem.add(courseName);
+
+                if(newLinearLayout.equals(topLeftLayout)){
+                    trackDragTable.addCourse(courseName,1);
+                }else if(newLinearLayout.equals(topRightLayout)){
+                    trackDragTable.addCourse(courseName,2);
+                }else if(newLinearLayout.equals(botLeftLayout)){
+                    trackDragTable.addCourse(courseName,3);
+                }else if(newLinearLayout.equals(botRightLayout)){
+                    trackDragTable.addCourse(courseName,4);
+                }else{
+                    //TODO 说明移动到ava  需要调用删除 DFS 删除
+                }
 
                 // Update the available course
                 if (oldListView == findViewById(R.id.schedule_ava_list_view) && newLinearLayout != findViewById(R.id.sch_ava_layout)) {
