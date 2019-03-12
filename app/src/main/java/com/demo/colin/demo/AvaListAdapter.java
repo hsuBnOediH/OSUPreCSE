@@ -14,27 +14,27 @@ import java.util.HashSet;
 
 class AvaListAdapter extends BaseAdapter {
 
-    private HashSet<String> avaliCourse = new HashSet<>();
-    public ArrayList<String> avaliCoureList = new ArrayList<>();
+    private HashSet<String> availCourse = new HashSet<>();
+    public ArrayList<String> availCourseList = new ArrayList<>();
     private LayoutInflater inflater;
     private static final String TEXT_VIEW_TAG = "DRAG TEXT";
 
 
-    public AvaListAdapter(HashSet<String> avaliCourse, Context context) {
-        this.avaliCourse = avaliCourse;
+    public AvaListAdapter(HashSet<String> availCourse, Context context) {
+        this.availCourse = availCourse;
         inflater = LayoutInflater.from(context);
-        avaliCoureList.addAll(avaliCourse);
+        availCourseList.addAll(availCourse);
 
     }
 
     @Override
     public int getCount() {
-        return avaliCourse.size();
+        return availCourse.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return this.avaliCoureList.get(position);
+        return this.availCourseList.get(position);
     }
 
     @Override
@@ -53,7 +53,7 @@ class AvaListAdapter extends BaseAdapter {
         textView.setTextSize(20);
         textView.setTextColor(Color.BLACK);
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
-        textView.setText(this.avaliCoureList.get(position));
+        textView.setText(this.availCourseList.get(position));
         textView.setTag(TEXT_VIEW_TAG);
         //Here we can do changes to the convertView, such as set a text on a TextView
         //or an image on an ImageView.
@@ -63,20 +63,20 @@ class AvaListAdapter extends BaseAdapter {
 
 
     public void remove(String course) {
-        avaliCoureList.remove(course);
-        avaliCourse.remove(course);
+        availCourseList.remove(course);
+        availCourse.remove(course);
         notifyDataSetChanged();
     }
 
     public void add(String course) {
-        avaliCoureList.add(course);
-        avaliCourse.add(course);
+        availCourseList.add(course);
+        availCourse.add(course);
         notifyDataSetChanged();
     }
 
     public void updateAvailable(HashSet<String> newAvailableCourse) {
-        avaliCoureList.addAll(newAvailableCourse);
-        avaliCourse.addAll(newAvailableCourse);
+        availCourseList.addAll(newAvailableCourse);
+        availCourse.addAll(newAvailableCourse);
         notifyDataSetChanged();
     }
 }

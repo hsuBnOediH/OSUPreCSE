@@ -38,6 +38,8 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
     Stack<LinearLayout> enterStack = new Stack<>();
 
+    private static final String TEXT_VIEW_TAG = "DRAG TEXT";
+
     private void findId() {
 
 
@@ -65,17 +67,18 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         botLeftLayout = findViewById(R.id.sch_sem_bot_left_layout);
         botRightLayout = findViewById(R.id.sch_sem_bot_right_layout);
 
+        listViewsArray.add(avaListView);
         listViewsArray.add(topLeftListView);
         listViewsArray.add(topRightListView);
         listViewsArray.add(botLeftListView);
         listViewsArray.add(botRightListView);
-        listViewsArray.add(avaListView);
 
+        layoutsArray.add(avaLayout);
         layoutsArray.add(topLeftLayout);
         layoutsArray.add(topRightLayout);
         layoutsArray.add(botLeftLayout);
         layoutsArray.add(botRightLayout);
-        layoutsArray.add(avaLayout);
+
 
         lvAdaMap.put(avaListView, avaListAdapter);
         lvAdaMap.put(topLeftListView, courseListTopLeft);
@@ -161,6 +164,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     // listener.
     @Override
     public boolean onDrag(View view, DragEvent event) {
+        String selectedCourse;
         // Defines a variable to store the action type for the incoming event
         int action = event.getAction();
         // Handles each of the expected events
@@ -182,19 +186,20 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
             case DragEvent.ACTION_DRAG_ENTERED:
                 // Applies a YELLOW or any color tint to the View, when the dragged view entered into drag acceptable view
                 // Return true; the return value is ignored.
-                LinearLayout oldLayout = (LinearLayout) view;
+                LinearLayout curLayout = (LinearLayout) view;
                 if (enterStack.empty()) {
-
+                    TextView selectedCourseTV = view.findViewWithTag(TEXT_VIEW_TAG).findViewById(R.id.sch_ava_item_text);
+                    selectedCourse = selectedCourseTV.getText().toString();
                     view.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                    enterStack.push(oldLayout);
+                    enterStack.push(curLayout);
                 } else {
-                    if (oldLayout.equals(avaLayout)) {
+                    if (curLayout.equals(avaLayout)) {
                         view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
                     } else {
-//                        if(function return bool 能不能放){
-//                            view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-//
-//                        }
+                        if(true){
+                            view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+
+                        }
                     }
                 }
 
