@@ -169,6 +169,7 @@ final public class CourseTree {
 
         arrayClear(pre, sub);
         sub.add("MATH1152");
+        sub.add("PHY1251");
         res.put("MATH1151", new Course("MATH1151", pre, sub));
 
         arrayClear(pre, sub);
