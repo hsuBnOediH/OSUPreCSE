@@ -12,8 +12,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-
 class AvaListAdapter extends BaseAdapter {
+
     private HashSet<String> avaliCourse = new HashSet<>();
     public ArrayList<String> avaliCoureList = new ArrayList<>();
     private LayoutInflater inflater;
@@ -71,6 +71,12 @@ class AvaListAdapter extends BaseAdapter {
     public void add(String course) {
         avaliCoureList.add(course);
         avaliCourse.add(course);
+        notifyDataSetChanged();
+    }
+
+    public void updateAvailable(HashSet<String> newAvailableCourse) {
+        avaliCoureList.addAll(newAvailableCourse);
+        avaliCourse.addAll(newAvailableCourse);
         notifyDataSetChanged();
     }
 }

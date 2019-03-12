@@ -94,8 +94,8 @@ public class EnglishActivity extends AppCompatActivity {
         contextList.add("Have took CSE1223");
         contextList.add("Have took CSE2221");
         contextList.add("Have took SUV1110");
-        contextList.add("Have took ENG1181.01");
-        contextList.add("Have took ENG1182.01");
+        contextList.add("Have took ENG1181");
+        contextList.add("Have took ENG1182");
 
     }
 
@@ -121,13 +121,13 @@ public class EnglishActivity extends AppCompatActivity {
             if(map.get(i)){
                 String className  = contextList.get(i).split(" ")[2];
                 set.add(className);
-                if(className.equals("ENG1110")){
-                    set.add("ENG1901");
-                    set.add("ENG1902");
-                }
-                if(className.equals("ENG1902")) set.add("ENG1901");
-                if(className.equals("MATH1152")) set.add("MATH1152");
-                if(className.equals("CSE2221")) set.add("CSE1223");
+//                if(className.equals("ENG1110")){
+//                    set.add("ENG1901");
+//                    set.add("ENG1902");
+//                }
+//                if(className.equals("ENG1902")) set.add("ENG1901");
+//                if(className.equals("MATH1152")) set.add("MATH1152");
+//                if(className.equals("CSE2221")) set.add("CSE1223");
             }
         }
 

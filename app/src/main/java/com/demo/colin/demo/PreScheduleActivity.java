@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +20,8 @@ import java.util.HashSet;
 
 
 public class PreScheduleActivity extends Activity implements View.OnDragListener {
-
+    /*CoursesTree which contains all the course information and user selection*/
+    private CourseTree courseTree=new CourseTree();
     private HashSet<String> availCourse = new HashSet<>();
 
     ArrayList<ListView> listViewsArray = new ArrayList<>();
@@ -87,7 +87,6 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
         Intent intent = getIntent();
         HashSet<String> set = (HashSet<String>) getIntent().getSerializableExtra("Set");
-        CourseTree courseTree = new CourseTree();
         courseTree.firstMarkAndAddAll(set);
         availCourse = courseTree.getAvailCourse();
 
@@ -223,6 +222,13 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 String courseName = textView.getText().toString();
                 removeItem.remove(courseName);
                 addItem.add(courseName);
+
+                // Update the available course
+                if(oldListView==findViewById(R.id.schedule_ava_list_view) && newLinearLayout!=findViewById(R.id.sch_ava_layout)) {
+                    HashSet<String> newAvailableCourse = courseTree.updateFinishedCourse(courseName);
+                    lvAdaMap.get(oldListView).updateAvailable(newAvailableCourse);
+                }
+
                 // Returns true. DragEvent.getResult() will return true.
                 return true;
             case DragEvent.ACTION_DRAG_ENDED:
