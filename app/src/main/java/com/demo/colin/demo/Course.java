@@ -5,13 +5,16 @@ import java.util.ArrayList;
 public class Course {
     private ArrayList<String> pre = new ArrayList<>();
     private ArrayList<String> sub = new ArrayList<>();
+    private int unfinishedPre;
+
     private String courseName;
 
-    public Course(String courseName, ArrayList<String> pre,
-                  ArrayList<String> sub) {
+    Course(String courseName, ArrayList<String> pre,
+           ArrayList<String> sub) {
         this.courseName = courseName;
         this.pre.addAll(pre);
         this.sub.addAll(sub);
+        this.unfinishedPre=pre.size();
     }
 
     public ArrayList<String> getPre() {
@@ -27,7 +30,11 @@ public class Course {
     }
 
     public int getPreSize() {
-        return this.pre.size();
+        return this.unfinishedPre;
+    }
+
+    public void finishOnePreCourse() {
+        this.unfinishedPre--;
     }
 
 //    public int getSubSize() {

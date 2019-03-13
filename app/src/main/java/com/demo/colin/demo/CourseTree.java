@@ -136,7 +136,6 @@ final public class CourseTree {
         arrayClear(pre, sub);
         pre.add("PHY1250");
         pre.add("MATH1151");
-        pre.add("PHY1250");
         res.put("PHY1251", new Course("PHY1251", pre, sub));
 
         arrayClear(pre, sub);
@@ -170,6 +169,7 @@ final public class CourseTree {
 
         arrayClear(pre, sub);
         sub.add("MATH1152");
+        sub.add("PHY1251");
         res.put("MATH1151", new Course("MATH1151", pre, sub));
 
         arrayClear(pre, sub);
@@ -238,18 +238,16 @@ final public class CourseTree {
                 String sub_course = sub_courses.get(i);
                 if (this.flagTree.get(sub_course) == State.NONE) {
                     ArrayList<String> subPreList = this.courses.get(sub_course).getPre();
-                    ArrayList<String> tempMeetList = new ArrayList<String>();
                     // Find all the equivalent prerequisite courses like MATH 2153 has two kinds of
-                    // prerequisite course-MATH 1152 OR MATH 1172
+                    // prerequisite course-MATH 1152 OR MATH 1172 Remove the contemporary finished
+                    // prerequisite courses from this individual sub_course
                     for (int j = 0; j < subPreList.size(); j++) {
                         if (this.flagTree.get(subPreList.get(j)) == State.FINISHED) {
-                            tempMeetList.add(subPreList.get(j));
+                            this.courses.get(sub_course).finishOnePreCourse();
                         }
                     }
-                    // Remove the contemporary finished prerequisite courses from this individual
-                    // sub_course and finally determine if this sub_course can be selected and
+                    // Finally determine if this sub_course can be selected and
                     // then change its state to be AVAILABLE
-                    this.courses.get(sub_course).getPre().removeAll(tempMeetList);
                     if (this.courses.get(sub_course).getPreSize() == 0) {
                         this.availCourses.add(sub_course);
                         this.flagTree.put(sub_course, State.AVAILABLE);
@@ -287,19 +285,17 @@ final public class CourseTree {
             String sub_course = sub_courses.get(i);
             if (this.flagTree.get(sub_course) == State.NONE) {
                 ArrayList<String> subPreList = this.courses.get(sub_course).getPre();
-                ArrayList<String> tempMeetList = new ArrayList<String>();
                 // Find all the equivalent prerequisite courses like MATH 2153 has two kinds of
-                // prerequisite course-MATH 1152 OR MATH 1172
+                // prerequisite course-MATH 1152 OR MATH 1172 Remove the contemporary finished
+                // prerequisite courses from this individual sub_course
                 for (int j = 0; j < subPreList.size(); j++) {
                     if (this.flagTree.get(subPreList.get(j)) == State.FINISHED) {
-                        tempMeetList.add(subPreList.get(j));
+                        this.courses.get(sub_course).finishOnePreCourse();
                     }
                 }
-                // Remove the contemporary finished prerequisite courses from this individual
-                // sub_course and finally determine if this sub_course can be selected and
+                // Finally determine if this sub_course can be selected and
                 // then change its state to be AVAILABLE
-                this.courses.get(sub_course).getPre().removeAll(tempMeetList);
-                if (this.courses.get(sub_course).getPreSize() == 0) {
+                if (this.courses.get(sub_course).getPreSize() <= 0) {
                     this.availCourses.add(sub_course);
                     this.flagTree.put(sub_course, State.AVAILABLE);
                     newAvailableCourse.add(sub_course);
@@ -307,6 +303,11 @@ final public class CourseTree {
             }
         }
         return newAvailableCourse;
+    }
+
+    // Getter for getting a single Course object
+    public Course getSingleCourse(String course) {
+        return this.courses.get(course);
     }
 
     public boolean undoable() {
@@ -354,6 +355,5 @@ final public class CourseTree {
         }
         return true;
     }
+
 }
-
-

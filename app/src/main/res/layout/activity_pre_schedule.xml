@@ -7,19 +7,61 @@
     tools:context="com.demo.colin.demo.PreScheduleActivity">
 
     <LinearLayout
-        android:id="@+id/top_layout"
-        android:layout_width="fill_parent"
+        android:id="@+id/sch_ava_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/blue"
-        android:gravity="top|center"
-        android:orientation="vertical">
+        android:background="@color/main_pre_button_text">
 
-
+        <ListView
+            android:id="@+id/schedule_ava_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/yellowLayout"
+        android:id="@+id/sch_sem_line_1_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:id="@+id/sch_sem_top_left_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/blue"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/sch_sem_top_left_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:longClickable="true">
+
+            </ListView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sch_sem_top_right_layout"
+            android:background="@color/top_right"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/sch_sem_top_right_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:longClickable="true"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/sch_sem_line_2_layout"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -27,22 +69,32 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/left_layout"
+            android:id="@+id/sch_sem_bot_left_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:orientation="vertical" />
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/sch_sem_bot_left_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/right_layout"
+            android:id="@+id/sch_sem_bot_right_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorAccent"
-            android:gravity="center"
-            android:orientation="vertical" />
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/sch_sem_bot_right_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </LinearLayout>
 
 
