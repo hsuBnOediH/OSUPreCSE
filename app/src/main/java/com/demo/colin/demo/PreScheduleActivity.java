@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -263,20 +264,23 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
                 TextView textView = itemInList.findViewById(R.id.sch_ava_item_text);
                 String courseName = textView.getText().toString();
-                removeItem.remove(courseName);
-                addItem.add(courseName);
+                int curLayOutID=this.layoutsArray.indexOf(newLinearLayout);
+                if (this.trackDragTable.isDoableSem(courseName,curLayOutID)) {
+                    removeItem.remove(courseName);
+                    addItem.add(courseName);
 
-                if (!newLinearLayout.equals(avaLayout)) {
-                    trackDragTable.addCourse(courseName,layoutsArray.indexOf(newLinearLayout));
-                }
-                else{
-                    //TODO 说明移动到ava  需要调用删除 DFS 删除
-                }
+                    if (!newLinearLayout.equals(avaLayout)) {
+                        trackDragTable.addCourse(courseName,layoutsArray.indexOf(newLinearLayout));
+                    }
 
-                // Update the available course
-                if (oldListView == findViewById(R.id.schedule_ava_list_view) && newLinearLayout != findViewById(R.id.sch_ava_layout)) {
-                    HashSet<String> newAvailableCourse = courseTree.updateFinishedCourse(courseName);
-                    lvAdaMap.get(oldListView).updateAvailable(newAvailableCourse);
+                    // Update the available course
+                    if (oldListView == findViewById(R.id.schedule_ava_list_view) && newLinearLayout != findViewById(R.id.sch_ava_layout)) {
+                        HashSet<String> newAvailableCourse = courseTree.updateFinishedCourse(courseName);
+                        lvAdaMap.get(oldListView).updateAvailable(newAvailableCourse);
+                    }
+                }
+                else {
+                    Toast.makeText(this,"You can not take this course for this semester!",Toast.LENGTH_LONG).show();
                 }
 
                 // Returns true. DragEvent.getResult() will return true.
