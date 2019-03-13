@@ -15,7 +15,7 @@ import java.util.HashSet;
 class AvaListAdapter extends BaseAdapter {
 
     private HashSet<String> availCourse = new HashSet<>();
-    public ArrayList<String> availCourseList = new ArrayList<>();
+    ArrayList<String> availCourseList = new ArrayList<>();
     private LayoutInflater inflater;
     private static final String TEXT_VIEW_TAG = "DRAG TEXT";
 

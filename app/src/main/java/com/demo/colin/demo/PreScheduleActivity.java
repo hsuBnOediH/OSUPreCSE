@@ -206,13 +206,13 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                     if (curLayout.equals(avaLayout)) {
                         view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
                     } else {
-                        if(trackDragTable.isDoableSem(selectedCourse,layoutPosition)){
-                            if(trackDragTable.isSuitableSem(selectedCourse,layoutPosition)){
+                        if (trackDragTable.isDoableSem(selectedCourse, layoutPosition)) {
+                            if (trackDragTable.isSuitableSem(selectedCourse, layoutPosition)) {
                                 view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-                            }else{
+                            } else {
                                 view.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
                             }
-                        }else{
+                        } else {
                             view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
                         }
                     }
@@ -261,50 +261,52 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 AvaListAdapter addItem = layAdaMap.get(newLinearLayout);
 
 
-
                 TextView textView = itemInList.findViewById(R.id.sch_ava_item_text);
                 String courseName = textView.getText().toString();
-                int curLayOutID=this.layoutsArray.indexOf(newLinearLayout);
-                if (this.trackDragTable.isDoableSem(courseName,curLayOutID)) {
+                int curLayOutID = this.layoutsArray.indexOf(newLinearLayout);
+
+
+                if (this.trackDragTable.isDoableSem(courseName, curLayOutID)) {
                     removeItem.remove(courseName);
                     addItem.add(courseName);
 
                     if (!newLinearLayout.equals(avaLayout)) {
-                        trackDragTable.addCourse(courseName,layoutsArray.indexOf(newLinearLayout));
+                        trackDragTable.addCourse(courseName, layoutsArray.indexOf(newLinearLayout));
                     }
-
                     // Update the available course
                     if (oldListView == findViewById(R.id.schedule_ava_list_view) && newLinearLayout != findViewById(R.id.sch_ava_layout)) {
                         HashSet<String> newAvailableCourse = courseTree.updateFinishedCourse(courseName);
                         lvAdaMap.get(oldListView).updateAvailable(newAvailableCourse);
                     }
-                }
-                else {
-                    Toast.makeText(this,"You can not take this course for this semester!",Toast.LENGTH_LONG).show();
-                }
-
-                // Returns true. DragEvent.getResult() will return true.
-                return true;
-            case DragEvent.ACTION_DRAG_ENDED:
-                // Turns off any color tinting
-                view.getBackground().clearColorFilter();
-
-                // Invalidates the view to force a redraw
-                view.invalidate();
-
-                // Does a getResult(), and displays what happened.
-                event.getResult();// Toast.makeText(this, "The drop was handled.", Toast.LENGTH_SHORT).show();
-
-
-                // returns true; the value is ignored.
-                return true;
-
-            // An unknown action type was received.
-            default:
-                break;
+                    this.trackDragTable.updateAllPreMax(courseTree.getAllCourse().get(selectedCourse).getPre());
         }
-        return false;
+                else{
+            Toast.makeText(this, "You can not take this course for this semester!", Toast.LENGTH_LONG).show();
+        }
+
+        // Returns true. DragEvent.getResult() will return true.
+        return true;
+        case DragEvent.ACTION_DRAG_ENDED:
+        // Turns off any color tinting
+        view.getBackground().clearColorFilter();
+
+        // Invalidates the view to force a redraw
+        view.invalidate();
+
+        // Does a getResult(), and displays what happened.
+        event.getResult();// Toast.makeText(this, "The drop was handled.", Toast.LENGTH_SHORT).show();
+
+
+        // returns true; the value is ignored.
+        return true;
+
+        // An unknown action type was received.
+        default:
+        break;
     }
+        return false;
+}
+
 
 
 }
