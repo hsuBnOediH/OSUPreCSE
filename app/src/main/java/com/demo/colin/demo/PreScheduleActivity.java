@@ -264,11 +264,11 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
                 if (curLayOutID == 0) {
                     removeItem.remove(courseName);
-                    ArrayList<String> subCourses = this.courseTree.getDeepSub(selectedCourse);
+                    ArrayList<String> subCourses = this.courseTree.getAllCourse().get(selectedCourse).getSub();
                     ArrayList<AvaListAdapter> allAdapters = new ArrayList<>(layAdaMap.values());
                     // Update all the layouts that contains the subCourses of the selected course;
                     for (AvaListAdapter adapter : allAdapters) {
-                        adapter.removeAll(subCourses);
+                        adapter.removeAll(this.courseTree.getDeepSub(selectedCourse));
                     }
                     // Update the courTree including the flagTree and FinishedCourses
                     this.courseTree.changeCourseState(selectedCourse);
