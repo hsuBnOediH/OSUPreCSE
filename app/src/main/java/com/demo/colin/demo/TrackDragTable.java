@@ -1,11 +1,7 @@
 package com.demo.colin.demo;
 
-import android.widget.LinearLayout;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 public class TrackDragTable {
     class CourseRow {
@@ -43,9 +39,11 @@ public class TrackDragTable {
                     }
                 }
             }
-            CourseRow preRow = this.table.get(preCourse);
-            preRow.maxLayoutID = max-1;
-            this.table.put(preCourse, preRow);
+            if (this.table.containsKey(preCourse)) {
+                CourseRow preRow = this.table.get(preCourse);
+                preRow.maxLayoutID = max-1;
+                this.table.put(preCourse, preRow);
+            }
         }
 
     }
