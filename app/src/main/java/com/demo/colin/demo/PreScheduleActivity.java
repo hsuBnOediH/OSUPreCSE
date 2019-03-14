@@ -43,8 +43,6 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     TrackDragTable trackDragTable;
     String selectedCourse;
 
-    private static final String TEXT_VIEW_TAG = "DRAG TEXT";
-
     private void findId() {
 
 

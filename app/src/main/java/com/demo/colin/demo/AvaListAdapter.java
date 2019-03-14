@@ -50,7 +50,7 @@ class AvaListAdapter extends BaseAdapter {
         }
 
         TextView textView = (TextView) convertView.findViewById(R.id.sch_ava_item_text);
-        textView.setTextSize(20);
+        textView.setTextSize(25);
         textView.setTextColor(Color.BLACK);
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
         textView.setText(this.availCourseList.get(position));
