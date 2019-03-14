@@ -22,11 +22,7 @@ public class TrackDragTable {
 
     private void initialAllCourseInTable() {
         for (String course : this.courseTree.getAllCourse().keySet()) {
-            CourseRow courseRow = new CourseRow();
-            courseRow.courseName = course;
-            courseRow.linerLayoutID = 0;
-            courseRow.miniLayoutID = 0;
-            courseRow.maxLayoutID = 5;
+           initialCourse(course);
         }
     }
 
@@ -36,13 +32,13 @@ public class TrackDragTable {
         courseRow.linerLayoutID = 0;
         courseRow.miniLayoutID = 0;
         courseRow.maxLayoutID = 5;
+        table.put(courseName,courseRow);
     }
 
     void deleteCourseInTable(String selectedCourse, CourseTree courseTree) {
         this.courseTree = courseTree;
         ArrayList<String> preCourse = this.courseTree.getAllCourse().get(selectedCourse).getPre();
-        int firsrSubSize = this.courseTree.getAllCourse().get(selectedCourse).getSub().size();
-        ArrayList<String> subCourse = getAllSub(selectedCourse, firsrSubSize);
+        ArrayList<String> subCourse = this.courseTree.getDeepSub(selectedCourse);
 
         initialCourse(selectedCourse);
 
@@ -60,6 +56,9 @@ public class TrackDragTable {
 
 
     }
+
+
+
 
     private ArrayList<String> getAllSub(String courseName, int size) {
         ArrayList<String> allSub = this.courseTree.getAllCourse().get(courseName).getSub();

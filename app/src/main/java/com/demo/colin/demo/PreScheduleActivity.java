@@ -280,7 +280,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                             addItem.remove(subCourse);
                         }
                     }
-                 //  trackDragTable.deleteCourseInTable(selectedCourse,courseTree);
+                   trackDragTable.deleteCourseInTable(selectedCourse,courseTree);
                     // TODO 更新追踪列表的layout ID
 
                 } else {
