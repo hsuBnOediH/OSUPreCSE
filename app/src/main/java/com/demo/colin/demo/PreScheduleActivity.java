@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tooltip.Tooltip;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,7 +27,7 @@ import java.util.HashSet;
 import java.util.Stack;
 
 
-public class PreScheduleActivity extends Activity implements View.OnDragListener, View.OnLongClickListener {
+public class PreScheduleActivity extends Activity implements View.OnDragListener, View.OnLongClickListener,View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private ArrayList<TextView> coureTextList = new ArrayList<>();
@@ -74,11 +76,29 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         //add or remove any view that you don't want to be dragged
         for(TextView tv : this.coureTextList){
             tv.setOnLongClickListener(this);
+            tv.setOnClickListener(this);
+
         }
         //add or remove any layout view that you don't want to accept dragged view
         findViewById(R.id.top_layout).setOnDragListener(this);
         findViewById(R.id.left_layout).setOnDragListener(this);
         findViewById(R.id.right_layout).setOnDragListener(this);
+
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == coureTextList.get(0).getId()){
+            showToolTip(v,Gravity.BOTTOM);
+        }
+    }
+
+    private void showToolTip(View v, int top) {
+        TextView tv = coureTextList.get(0);
+        Tooltip tooltip = new Tooltip.Builder(tv)
+                .setText("AaaaaavashdjbwejkfgbhjhgflkasfjksdhfjlkdhgbajfhZASJLKdfghesjfhjhdjlkhwasdjkHASJKhdghjasGHDJAShjdghjkaGSHDJGahjsdghjaGSDHJGashvdfghasjGDJKAShgyudfutqwygDFGKYJASGHD")
+                .setGravity(top).setCornerRadius(8f).setDismissOnClick(true).show();
     }
 
     @Override
@@ -238,6 +258,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
     public HashSet<String> updateSelection(String selectedCourse) {
        return this.courseTree.updateFinishedCourse(selectedCourse);
     }
+
 
 
 }
