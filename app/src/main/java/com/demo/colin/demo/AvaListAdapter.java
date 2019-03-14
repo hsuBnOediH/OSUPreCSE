@@ -14,14 +14,12 @@ import java.util.HashSet;
 
 class AvaListAdapter extends BaseAdapter {
 
-    private HashSet<String> availCourse = new HashSet<>();
     ArrayList<String> availCourseList = new ArrayList<>();
     private LayoutInflater inflater;
     private static final String TEXT_VIEW_TAG = "DRAG TEXT";
 
 
     public AvaListAdapter(HashSet<String> availCourse, Context context) {
-        this.availCourse = availCourse;
         inflater = LayoutInflater.from(context);
         availCourseList.addAll(availCourse);
 
@@ -29,7 +27,7 @@ class AvaListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return availCourse.size();
+        return availCourseList.size();
     }
 
     @Override
@@ -64,19 +62,20 @@ class AvaListAdapter extends BaseAdapter {
 
     public void remove(String course) {
         availCourseList.remove(course);
-        availCourse.remove(course);
+        notifyDataSetChanged();
+    }
+    public void removeAll(ArrayList<String> subCourses) {
+        availCourseList.removeAll(subCourses);
         notifyDataSetChanged();
     }
 
     public void add(String course) {
         availCourseList.add(course);
-        availCourse.add(course);
         notifyDataSetChanged();
     }
 
     public void updateAvailable(HashSet<String> newAvailableCourse) {
         availCourseList.addAll(newAvailableCourse);
-        availCourse.addAll(newAvailableCourse);
         notifyDataSetChanged();
     }
 }

@@ -36,7 +36,9 @@ public class Course {
     public void finishOnePreCourse() {
         this.unfinishedPre--;
     }
-
+    public void undoOnePreCourse() {
+        this.unfinishedPre++;
+    }
 //    public int getSubSize() {
 //        return this.sub.size();
 //    }

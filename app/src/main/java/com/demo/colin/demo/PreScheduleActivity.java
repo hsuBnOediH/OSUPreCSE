@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -263,48 +262,66 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 String courseName = textView.getText().toString();
                 int curLayOutID = this.layoutsArray.indexOf(newLinearLayout);
 
-
-                if (this.trackDragTable.isDoableSem(courseName, curLayOutID)) {
+                if (curLayOutID == 0) {
                     removeItem.remove(courseName);
-                    addItem.add(courseName);
-
-                    if (!newLinearLayout.equals(avaLayout)) {
-                        trackDragTable.addCourse(courseName, layoutsArray.indexOf(newLinearLayout));
+                    ArrayList<String> subCourses = this.courseTree.getAllCourse().get(selectedCourse).getSub();
+                    ArrayList<AvaListAdapter> allAdapters = new ArrayList<>(layAdaMap.values());
+                    // Update all the layouts that contains the subCourses of the selected course;
+                    for (AvaListAdapter adapter : allAdapters) {
+                        adapter.removeAll(subCourses);
                     }
-                    // Update the available course
-                    if (oldListView == findViewById(R.id.schedule_ava_list_view) && newLinearLayout != findViewById(R.id.sch_ava_layout)) {
-                        HashSet<String> newAvailableCourse = courseTree.updateFinishedCourse(courseName);
-                        lvAdaMap.get(oldListView).updateAvailable(newAvailableCourse);
+                    // Update the courTree including the flagTree and FinishedCourses
+                    this.courseTree.changeCourseState(selectedCourse);
+                    this.courseTree.addAvailableCourse(selectedCourse);
+                    this.courseTree.undo(subCourses);
+                    addItem.add(selectedCourse);
+                    for (String subCourse : subCourses) {
+                        if (!(this.courseTree.getFlagCourse().get(subCourse) == State.AVAILABLE)) {
+                            addItem.remove(subCourse);
+                        }
                     }
-                    this.trackDragTable.updateAllPreMax(courseTree.getAllCourse().get(selectedCourse).getPre());
+                    // TODO 更新追踪列表的layout ID
+
+                } else {
+                    if (this.trackDragTable.isDoableSem(courseName, curLayOutID)) {
+                        removeItem.remove(courseName);
+                        addItem.add(courseName);
+                        if (!newLinearLayout.equals(avaLayout)) {
+                            trackDragTable.addCourse(courseName, layoutsArray.indexOf(newLinearLayout));
+                        }
+                        // Update the available course
+                        if (oldListView == findViewById(R.id.schedule_ava_list_view) && newLinearLayout != findViewById(R.id.sch_ava_layout)) {
+                            HashSet<String> newAvailableCourse = courseTree.updateFinishedCourse(courseName);
+                            lvAdaMap.get(oldListView).updateAvailable(newAvailableCourse);
+                        }
+                        this.trackDragTable.updateAllPreMax(courseTree.getAllCourse().get(selectedCourse).getPre());
+                    } else {
+                        Toast.makeText(this, "You can not take this course for this semester!", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                // Returns true. DragEvent.getResult() will return true.
+                return true;
+            case DragEvent.ACTION_DRAG_ENDED:
+                // Turns off any color tinting
+                view.getBackground().clearColorFilter();
+
+                // Invalidates the view to force a redraw
+                view.invalidate();
+
+                // Does a getResult(), and displays what happened.
+                event.getResult();// Toast.makeText(this, "The drop was handled.", Toast.LENGTH_SHORT).show();
+
+
+                // returns true; the value is ignored.
+                return true;
+
+            // An unknown action type was received.
+            default:
+                break;
         }
-                else{
-            Toast.makeText(this, "You can not take this course for this semester!", Toast.LENGTH_LONG).show();
-        }
-
-        // Returns true. DragEvent.getResult() will return true.
-        return true;
-        case DragEvent.ACTION_DRAG_ENDED:
-        // Turns off any color tinting
-        view.getBackground().clearColorFilter();
-
-        // Invalidates the view to force a redraw
-        view.invalidate();
-
-        // Does a getResult(), and displays what happened.
-        event.getResult();// Toast.makeText(this, "The drop was handled.", Toast.LENGTH_SHORT).show();
-
-
-        // returns true; the value is ignored.
-        return true;
-
-        // An unknown action type was received.
-        default:
-        break;
-    }
         return false;
-}
-
+    }
 
 
 }

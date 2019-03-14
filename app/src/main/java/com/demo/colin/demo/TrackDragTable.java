@@ -41,7 +41,7 @@ public class TrackDragTable {
             }
             if (this.table.containsKey(preCourse)) {
                 CourseRow preRow = this.table.get(preCourse);
-                preRow.maxLayoutID = max-1;
+                preRow.maxLayoutID = max - 1;
                 this.table.put(preCourse, preRow);
             }
         }

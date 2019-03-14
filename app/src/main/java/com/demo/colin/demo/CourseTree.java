@@ -53,17 +53,28 @@ final public class CourseTree {
     public HashSet<String> getAvailCourse() {
         return this.availCourses;
     }
+
     // Getter: return the this.finishedCourses course
     public Stack<String> getFinishedCourse() {
         return this.finishedCourses;
     }
+
     // Getter: return the this.courses course
     public HashMap<String, Course> getAllCourse() {
         return this.courses;
     }
+
     // Getter: return the this.flagTree course
-    public  HashMap<String, State> getFlagCourse() {
+    public HashMap<String, State> getFlagCourse() {
         return this.flagTree;
+    }
+
+    public void changeCourseState(String course) {
+        this.flagTree.put(course, State.AVAILABLE);
+    }
+
+    public void addAvailableCourse(String course) {
+        this.availCourses.add(course);
     }
 
     public String printAvail() {
@@ -202,7 +213,7 @@ final public class CourseTree {
      *  for each finished course. This method using Recursion to finish the process.
      */
     private void markAllPre(String finished_course) {
-        if (this.flagTree.get(finished_course) == State.NONE || this.flagTree.get(finished_course)==State.AVAILABLE) {
+        if (this.flagTree.get(finished_course) == State.NONE || this.flagTree.get(finished_course) == State.AVAILABLE) {
             // This course should be marked now;
             this.flagTree.put(finished_course, State.FINISHED);
             // Get the child course list for this specific course node
@@ -267,8 +278,8 @@ final public class CourseTree {
     /*
      *  Mark the course that the student has finished and updated the available courses List
      */
-    public HashSet<String> updateFinishedCourse (String finished_course) {
-        HashSet<String> newAvailableCourse=new HashSet<>();
+    public HashSet<String> updateFinishedCourse(String finished_course) {
+        HashSet<String> newAvailableCourse = new HashSet<>();
         // Keep the records of the finished course of the student Mark all the prerequisite
         // courses of the individual finished course and the individual course itself
         this.finishedCourses.add(finished_course);
@@ -295,7 +306,7 @@ final public class CourseTree {
                 }
                 // Finally determine if this sub_course can be selected and
                 // then change its state to be AVAILABLE
-                if (this.courses.get(sub_course).getPreSize() <= 0) {
+                if (this.courses.get(sub_course).getPreSize() <= 0 && this.flagTree.get(finished_course) == State.FINISHED) {
                     this.availCourses.add(sub_course);
                     this.flagTree.put(sub_course, State.AVAILABLE);
                     newAvailableCourse.add(sub_course);
@@ -310,24 +321,66 @@ final public class CourseTree {
         return this.courses.get(course);
     }
 
-    public boolean undoable() {
-        return !this.finishedCourses.isEmpty();
+    public boolean undoable(String subCourse) {
+        return this.finishedCourses.contains(subCourse) || this.availCourses.contains(subCourse);
     }
 
-    public void undo() {
-        String undoCourse = this.finishedCourses.pop();
-        this.flagTree.put(undoCourse, State.AVAILABLE);
-        ArrayList<String> subList = this.courses.get(undoCourse).getSub();
-
-        for (String sub : subList) {
-            if (this.availCourses.contains(sub)) {
-                this.availCourses.remove(sub);
-                this.flagTree.put(sub, State.NONE);
+    public void undo(ArrayList<String> subCourses) {
+        for (String subCourse : subCourses) {
+            if (undoable(subCourse)) {
+                // This means this course has been put to one of the semester layouts or
+                // this course is still in the available courses layouts
+                if (this.finishedCourses.contains(subCourse)) {
+                    this.finishedCourses.remove(subCourse);
+                } else {
+                    this.availCourses.remove(subCourse);
+                }
+                this.flagTree.put(subCourse, State.NONE);
+                if (this.courses.containsKey(subCourse)) {
+                    this.courses.get(subCourse).undoOnePreCourse();
+                    // Some courses may has sub Courses like PHY1251
+                    if (this.courses.get(subCourse).getSub().size() > 0) {
+                        ArrayList<String> subSubCourses = this.courses.get(subCourse).getSub();
+                        undo(subSubCourses);
+                    }
+                }
+            } else {
+                if (this.courses.containsKey(subCourse)) {
+                    this.courses.get(subCourse).undoOnePreCourse();
+                }
             }
         }
-
-
     }
+
+//    private void undoAllSubCoursePre(ArrayList<String> subCourses) {
+//        // Remove the subCourses in the available courses
+//        // and also remove the preCourse Count in these subCourses courses
+//        for (String subCourse : subCourses) {
+//            if (undoable(subCourse)) {
+//                // This means this course has been put to one of the semester layouts or
+//                // this course is still in the available courses layouts
+//                if (this.finishedCourses.contains(subCourse)) {
+//                    this.finishedCourses.remove(subCourse);
+//                }
+//                else {
+//                    this.availCourses.remove(subCourse);
+//                }
+//                this.flagTree.put(subCourse, State.NONE);
+//                if (this.courses.get(subCourse).getPre().size()>0) {
+//                    this.courses.get(subCourse).undoOnePreCourse();
+//                }
+//                if (this.courses.containsKey(subCourse) && this.courses.get(subCourse).getSub().size()>0) {
+//                    undoAllSubCoursePre(this.courses.get(subCourse).getSub());
+//                }
+//            }
+//            else {
+//                if (this.courses.get(subCourse).getPre().size()>0) {
+//                    this.courses.get(subCourse).undoOnePreCourse();
+//                }
+//            }
+//        }
+//
+//    }
 
     public void addCourse(String selectCourse) {
         // First remove the course from availCourses and add that to finishedCourses
