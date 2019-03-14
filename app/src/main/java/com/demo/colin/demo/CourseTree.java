@@ -371,7 +371,23 @@ final public class CourseTree {
             }
         }
     }
-
+    public  ArrayList<String>  getDeepSub(String subCourse) {
+        ArrayList<String> allSub=new ArrayList<>();
+        if (this.courses.get(subCourse).getSub().size()>0) {
+            getDeepSubHelper(allSub,this.courses.get(subCourse).getSub());
+        }
+        return allSub;
+    }
+    public void getDeepSubHelper(ArrayList<String> allSub,  ArrayList<String> subCourses) {
+        for (String course:subCourses) {
+            if (this.courses.get(course).getSub().size()>0) {
+                getDeepSubHelper(allSub, this.courses.get(course).getSub());
+            }
+            if (!allSub.contains(course)) {
+                allSub.add(course);
+            }
+        }
+    }
 //    private void undoAllSubCoursePre(ArrayList<String> subCourses) {
 //        // Remove the subCourses in the available courses
 //        // and also remove the preCourse Count in these subCourses courses
