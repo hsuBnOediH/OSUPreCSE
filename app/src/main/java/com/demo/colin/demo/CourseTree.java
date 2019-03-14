@@ -205,6 +205,22 @@ final public class CourseTree {
         arrayClear(pre, sub);
         res.put("SUV1110", new Course("SUV1110", pre, sub));
 
+        arrayClear(pre, sub);
+        pre.add("CSE2231");
+        pre.add("CSE2321");
+        res.put("CSE2331", new Course("CSE2331", pre, sub));
+
+
+        arrayClear(pre, sub);
+        pre.add("CSE2231");
+        pre.add("CSE2321");
+        res.put("CSE2421", new Course("CSE2421", pre, sub));
+
+        arrayClear(pre, sub);
+        pre.add("CSE2231");
+        pre.add("CSE2321");
+        res.put("CSE2501", new Course("CSE2501", pre, sub));
+
         return res;
     }
 
@@ -310,6 +326,10 @@ final public class CourseTree {
                     this.availCourses.add(sub_course);
                     this.flagTree.put(sub_course, State.AVAILABLE);
                     newAvailableCourse.add(sub_course);
+                }
+                if (this.flagTree.get(sub_course)==State.AVAILABLE) {
+                    this.availCourses.remove(sub_course);
+                    this.flagTree.put(sub_course, State.NONE);
                 }
             }
         }

@@ -17,6 +17,59 @@ public class TrackDragTable {
     public TrackDragTable(CourseTree courseTree) {
         this.table = new HashMap<>();
         this.courseTree = courseTree;
+        initialAllCourseInTable();
+    }
+
+    private void initialAllCourseInTable() {
+        for (String course : this.courseTree.getAllCourse().keySet()) {
+            CourseRow courseRow = new CourseRow();
+            courseRow.courseName = course;
+            courseRow.linerLayoutID = 0;
+            courseRow.miniLayoutID = 0;
+            courseRow.maxLayoutID = 5;
+        }
+    }
+
+    private void initialCourse(String courseName) {
+        CourseRow courseRow = new CourseRow();
+        courseRow.courseName = courseName;
+        courseRow.linerLayoutID = 0;
+        courseRow.miniLayoutID = 0;
+        courseRow.maxLayoutID = 5;
+    }
+
+    void deleteCourseInTable(String selectedCourse, CourseTree courseTree) {
+        this.courseTree = courseTree;
+        ArrayList<String> preCourse = this.courseTree.getAllCourse().get(selectedCourse).getPre();
+        int firsrSubSize = this.courseTree.getAllCourse().get(selectedCourse).getSub().size();
+        ArrayList<String> subCourse = getAllSub(selectedCourse, firsrSubSize);
+
+        initialCourse(selectedCourse);
+
+        for (String sub : subCourse) {
+            initialCourse(sub);
+        }
+        for (String pre : preCourse) {
+            CourseRow courseRow = new CourseRow();
+            courseRow.courseName = pre;
+            courseRow.miniLayoutID = getMiniLayout(pre);
+            courseRow.maxLayoutID = getMaxLayoutID(pre);
+            courseRow.linerLayoutID = this.table.get(pre).linerLayoutID;
+            this.table.put(pre, courseRow);
+        }
+
+
+    }
+
+    private ArrayList<String> getAllSub(String courseName, int size) {
+        ArrayList<String> allSub = this.courseTree.getAllCourse().get(courseName).getSub();
+        for (int i = 0; i < size; i++) {
+            ArrayList<String> subs = this.courseTree.getAllCourse().get(allSub.get(i)).getSub();
+            if (subs.size() > 0) {
+                allSub.addAll(getAllSub(allSub.get(i), subs.size()));
+            }
+        }
+        return allSub;
     }
 
     void addCourse(String courseName, int curLayoutNum) {
