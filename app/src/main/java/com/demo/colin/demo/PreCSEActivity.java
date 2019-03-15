@@ -61,13 +61,13 @@ public class PreCSEActivity extends AppCompatActivity {
      * </pre>
      */
     private void initData() {
-        contextList.add("我的Computer Science A 大于等于3分");
-        contextList.add("我的Calculus AB 大于等于3 分");
-        contextList.add("我的Calculus BC 大于等于3 分");
-        contextList.add("我的English Literature and Composition大于等于3分");
-        contextList.add("我的Physics C: Mechanics 大于等于 3分");
-        contextList.add("我的Physics C: Electricity and Magnetism 大于等于3分");
-        contextList.add("我是非英语母语的国际学生");
+        contextList.add("My AP-Computer Science A ≥ 3");
+        contextList.add("My Calculus AB ≥ 3");
+        contextList.add("My Calculus BC ≥ 3");
+        contextList.add("My English Literature and Composition ≥ 3");
+        contextList.add("My Physics C: Mechanics ≥ 3");
+        contextList.add("My Physics C: Electricity and Magnetism ≥ 3");
+        contextList.add("I am an International Student with Native Language is NOT English");
     }
 
 

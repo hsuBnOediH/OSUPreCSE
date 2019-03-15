@@ -3,9 +3,12 @@
     <string name="main_pre_button_text">Pre-Cse major</string>
     <string name="main_button_major_text">Already in major</string>
     <string name="button_text_next">NEXT</string>
-    <string name="pre_ap_promote_question">选择下列你符合的AP成绩选项</string>
-    <string name="pre_englishMath_promote_question">选择下列你的English Math Phy Level</string>
-
+    <string name="pre_ap_promote_question">Select qualified options for AP Score</string>
+    <string name="pre_englishMath_promote_question">Select the courses you have taken</string>
+    <string name="first_semester">First Semester</string>
+    <string name="second_semester">Second Semester</string>
+    <string name="third_semester">Third Semester</string>
+    <string name="fourth_semester">Fourth Semester</string>
 
 
 

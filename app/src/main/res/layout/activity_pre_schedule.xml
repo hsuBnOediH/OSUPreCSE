@@ -33,7 +33,16 @@
             android:layout_weight="1"
             android:background="@color/blue"
             android:orientation="vertical">
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20pt"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/first_semester"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textColorHighlight="@color/blue"
+                />
             <ListView
                 android:id="@+id/sch_sem_top_left_list_view"
                 android:layout_width="match_parent"
@@ -50,7 +59,16 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20pt"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/second_semester"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textColorHighlight="@color/blue"
+                />
             <ListView
                 android:id="@+id/sch_sem_top_right_list_view"
                 android:layout_width="match_parent"
@@ -75,7 +93,16 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:orientation="vertical">
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20pt"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/third_semester"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textColorHighlight="@color/blue"
+                />
             <ListView
                 android:id="@+id/sch_sem_bot_left_list_view"
                 android:layout_width="match_parent"
@@ -89,7 +116,16 @@
             android:layout_weight="1"
             android:background="@color/colorAccent"
             android:orientation="vertical">
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20pt"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/fourth_semester"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textColorHighlight="@color/blue"
+                />
             <ListView
                 android:id="@+id/sch_sem_bot_right_list_view"
                 android:layout_width="match_parent"
