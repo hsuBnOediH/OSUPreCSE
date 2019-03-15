@@ -8,12 +8,16 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,6 +118,23 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         implementEvents();
 
     }
+    private void setItemOnClickListener(ListView lv){
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView tv = view.findViewById(R.id.sch_ava_item_text);
+                String description ="This is the Course description of " + tv.getText().toString() ;
+                showToolTip(view, Gravity.BOTTOM, description);
+            }
+        });
+    }
+
+    private void showToolTip(View view, int gravity, String description) {
+        RelativeLayout relativeLayout = (RelativeLayout) view;
+        Tooltip tooltip = new Tooltip.Builder(relativeLayout).setText(description).setGravity(gravity)
+                .setDismissOnClick(true).setCancelable(true).setCornerRadius(8f).show();
+
+    }
 
     private void setItemLongClickListener(ListView lv) {
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -156,6 +177,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
         for (ListView lv : listViewsArray) {
             setItemLongClickListener(lv);
+            setItemOnClickListener(lv);
         }
 
         for (LinearLayout linearLayout : layoutsArray) {
