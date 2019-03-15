@@ -141,6 +141,28 @@ final public class CourseTree {
         res.put("ENG2367", new Course("ENG2367", pre, sub));
 
         arrayClear(pre, sub);
+        pre.add("ENG2367");
+        res.put("CSE2501", new Course("2501", pre, sub));
+
+        arrayClear(pre, sub);
+        pre.add("ENG2367");
+        pre.add("CSE2331");
+        pre.add("CSE2421");
+        res.put("CSE3901", new Course("CSE3901", pre, sub));
+
+        arrayClear(pre, sub);
+        pre.add("ENG2367");
+        pre.add("CSE2331");
+        pre.add("CSE2421");
+        res.put("CSE3902", new Course("CSE3902", pre, sub));
+
+        arrayClear(pre, sub);
+        pre.add("ENG2367");
+        pre.add("CSE2331");
+        pre.add("CSE2421");
+        res.put("CSE3903", new Course("CSE3903", pre, sub));
+
+        arrayClear(pre, sub);
         sub.add("PHY1251");
         res.put("PHY1250", new Course("PHY1250", pre, sub));
 
