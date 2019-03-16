@@ -54,8 +54,6 @@ class TrackDragTable {
             courseRow.linerLayoutID = this.table.get(pre).linerLayoutID;
             this.table.put(pre, courseRow);
         }
-
-
     }
 
     private void updateMax(String course) {
@@ -68,6 +66,12 @@ class TrackDragTable {
 
     }
 
+    void updateAllPreMax(ArrayList<String> preCourses) {
+        for (String preCourse : preCourses) {
+            updateMax(preCourse);
+        }
+    }
+
     void addCourse(String courseName, int curLayoutNum) {
         CourseRow addingCourse = new CourseRow();
         addingCourse.courseName = courseName;
@@ -76,13 +80,6 @@ class TrackDragTable {
         // 根据Course 计算最小值 这个函数最好放在courseTree里面
         addingCourse.maxLayoutID = getMaxLayoutID(courseName);
         this.table.put(courseName, addingCourse);
-    }
-
-    void updateAllPreMax(ArrayList<String> preCourses) {
-        for (String preCourse : preCourses) {
-            updateMax(preCourse);
-        }
-
     }
 
     private int getMaxLayoutID(String courseName) {

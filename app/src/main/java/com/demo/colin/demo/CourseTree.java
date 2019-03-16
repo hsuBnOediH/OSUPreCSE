@@ -79,7 +79,9 @@ final public class CourseTree {
             this.finishedCourses.add(course);
             this.availCourses.remove(course);
 
-            for(String sub: courses.get(course).getSub()){
+            ArrayList<String> subCourses=courses.get(course).getSub();
+            for(String sub:subCourses){
+                // TODO 可以优化加入setter
                 Course subCourse = courses.get(sub);
                 subCourse.finishOnePreCourse();
                 courses.put(sub,subCourse);
@@ -353,29 +355,20 @@ final public class CourseTree {
 
     void undo(ArrayList<String> subCourses) {
         for (String subCourse : subCourses) {
+            // This means this course has been put to one of the semester layouts or
+            // this course is still in the available courses layouts
+            this.courses.get(subCourse).undoOnePreCourse();
             if (undoable(subCourse)) {
-                // This means this course has been put to one of the semester layouts or
-                // this course is still in the available courses layouts
+                this.flagTree.put(subCourse, State.NONE);
                 if (this.finishedCourses.contains(subCourse)) {
                     this.finishedCourses.remove(subCourse);
-                } else {
-                    this.availCourses.remove(subCourse);
-                }
-                this.flagTree.put(subCourse, State.NONE);
-                if (this.courses.containsKey(subCourse)) {
-                    this.courses.get(subCourse).undoOnePreCourse();
                     // Some courses may has sub Courses like PHY1251
                     if (this.courses.get(subCourse).getSub().size() > 0) {
                         ArrayList<String> subSubCourses = this.courses.get(subCourse).getSub();
                         undo(subSubCourses);
-                    }else{
-                        this.courses.get(subCourse).undoOnePreCourse();
-
                     }
-                }
-            } else {
-                if (this.courses.containsKey(subCourse)) {
-                    this.courses.get(subCourse).undoOnePreCourse();
+                } else {
+                    this.availCourses.remove(subCourse);
                 }
             }
         }

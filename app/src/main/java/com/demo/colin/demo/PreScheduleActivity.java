@@ -286,46 +286,41 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                 int curLayOutID = this.layoutsArray.indexOf(newLinearLayout);
 
                 if (curLayOutID == 0) {
-                    removeItem.remove(courseName);
                     ArrayList<String> subCourses = this.courseTree.getAllCourse().get(selectedCourse).getSub();
+                    ArrayList<String> subDeepCourses = this.courseTree.getDeepSub(selectedCourse);
                     ArrayList<AvaListAdapter> allAdapters = new ArrayList<>(layAdaMap.values());
-                    // Update all the layouts that contains the subCourses of the selected course;
-                    for (AvaListAdapter adapter : allAdapters) {
-                        adapter.removeAll(this.courseTree.getDeepSub(selectedCourse));
-                    }
                     // Update the courTree including the flagTree and FinishedCourses
+                    // Remove the subCourses of the selectedCourse in the available courses Layout
+                    // Update the trackDrag table of the selectedCourses(both its pre and subs)
                     this.courseTree.changeCourseState(selectedCourse, State.AVAILABLE);
                     this.courseTree.undo(subCourses);
-                    addItem.add(selectedCourse);
-                    for (String subCourse : subCourses) {
-                        if (!(this.courseTree.getFlagCourse().get(subCourse) == State.AVAILABLE)) {
-                            addItem.remove(subCourse);
-                        }
-                    }
+                    // Update trackTable to update all related courses'available putting layout ID
                     trackDragTable.deleteCourseInTable(selectedCourse, courseTree);
+                    // 更新View Update all the layouts of subDeepCourses of the selected course;
+                    for (AvaListAdapter adapter : allAdapters) {
+                        adapter.removeAll(subDeepCourses);
+                    }
+                    removeItem.remove(courseName);
+                    addItem.add(selectedCourse);
                 } else {
-                    //move to a semester
                     if (this.trackDragTable.isDoableSem(courseName, curLayOutID)) {
-                        //update item in adapter
-                        removeItem.remove(courseName);
-                        addItem.add(courseName);
-
                         // Update the available course
                         if (oldListView == findViewById(R.id.schedule_ava_list_view) && newLinearLayout != findViewById(R.id.sch_ava_layout)) {
                             HashSet<String> newAvailableCourse = courseTree.updateFinishedCourse(courseName);
                             lvAdaMap.get(oldListView).updateAvailable(newAvailableCourse);
                         }
-
-
+                        // Update trackTable to update all related courses'available drag layout ID
                         trackDragTable.addCourse(courseName, layoutsArray.indexOf(newLinearLayout));
-
                         this.trackDragTable.updateAllPreMax(courseTree.getAllCourse().get(selectedCourse).getPre());
+                        //Update item in adapter in View
+                        removeItem.remove(courseName);
+                        addItem.add(courseName);
 
                     } else {
+                        // Give hints for invalid drag
                         Toast.makeText(this, "You can not take this course for this semester!", Toast.LENGTH_LONG).show();
                     }
                 }
-
                 // Returns true. DragEvent.getResult() will return true.
                 return true;
             case DragEvent.ACTION_DRAG_ENDED:
@@ -337,7 +332,6 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
 
                 // Does a getResult(), and displays what happened.
                 event.getResult();// Toast.makeText(this, "The drop was handled.", Toast.LENGTH_SHORT).show();
-
 
                 // returns true; the value is ignored.
                 return true;
