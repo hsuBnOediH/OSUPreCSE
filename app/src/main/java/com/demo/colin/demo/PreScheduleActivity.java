@@ -16,9 +16,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.tooltip.Tooltip;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,6 +24,7 @@ import java.util.Stack;
 
 
 public class PreScheduleActivity extends Activity implements View.OnDragListener {
+
     /*CoursesTree which contains all the course information and user selection*/
     private CourseTree courseTree = new CourseTree();
     private HashSet<String> availCourse = new HashSet<>();

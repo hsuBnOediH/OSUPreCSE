@@ -49,7 +49,6 @@ class TrackDragTable {
             CourseRow courseRow = new CourseRow();
             courseRow.courseName = pre;
             courseRow.miniLayoutID = getMiniLayout(pre);
-            updateMax(pre);
             courseRow.maxLayoutID = getMaxLayoutID(pre);
             courseRow.linerLayoutID = this.table.get(pre).linerLayoutID;
             this.table.put(pre, courseRow);
