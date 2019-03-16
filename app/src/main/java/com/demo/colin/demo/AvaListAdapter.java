@@ -60,7 +60,7 @@ class AvaListAdapter extends BaseAdapter {
     }
 
 
-    public void remove(String course) {
+    void remove(String course) {
         availCourseList.remove(course);
         notifyDataSetChanged();
     }

@@ -3,7 +3,7 @@ package com.demo.colin.demo;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TrackDragTable {
+class TrackDragTable {
     class CourseRow {
         String courseName;
         int linerLayoutID;
@@ -14,7 +14,7 @@ public class TrackDragTable {
     private HashMap<String, CourseRow> table;
     private CourseTree courseTree;
 
-    public TrackDragTable(CourseTree courseTree) {
+    TrackDragTable(CourseTree courseTree) {
         this.table = new HashMap<>();
         this.courseTree = courseTree;
         initialAllCourseInTable();
@@ -22,7 +22,7 @@ public class TrackDragTable {
 
     private void initialAllCourseInTable() {
         for (String course : this.courseTree.getAllCourse().keySet()) {
-           initialCourse(course);
+            initialCourse(course);
         }
     }
 
@@ -32,7 +32,7 @@ public class TrackDragTable {
         courseRow.linerLayoutID = 0;
         courseRow.miniLayoutID = 0;
         courseRow.maxLayoutID = 5;
-        table.put(courseName,courseRow);
+        table.put(courseName, courseRow);
     }
 
     void deleteCourseInTable(String selectedCourse, CourseTree courseTree) {
@@ -49,6 +49,7 @@ public class TrackDragTable {
             CourseRow courseRow = new CourseRow();
             courseRow.courseName = pre;
             courseRow.miniLayoutID = getMiniLayout(pre);
+            updateMax(pre);
             courseRow.maxLayoutID = getMaxLayoutID(pre);
             courseRow.linerLayoutID = this.table.get(pre).linerLayoutID;
             this.table.put(pre, courseRow);
@@ -57,55 +58,44 @@ public class TrackDragTable {
 
     }
 
+    private void updateMax(String course) {
+        CourseRow courseRow = new CourseRow();
+        courseRow.courseName = course;
+        courseRow.linerLayoutID = table.get(course).linerLayoutID;
+        courseRow.miniLayoutID = table.get(course).miniLayoutID;
+        courseRow.maxLayoutID = getMaxLayoutID(course);
+        table.put(course, courseRow);
 
-
-
-    private ArrayList<String> getAllSub(String courseName, int size) {
-        ArrayList<String> allSub = this.courseTree.getAllCourse().get(courseName).getSub();
-        for (int i = 0; i < size; i++) {
-            ArrayList<String> subs = this.courseTree.getAllCourse().get(allSub.get(i)).getSub();
-            if (subs.size() > 0) {
-                allSub.addAll(getAllSub(allSub.get(i), subs.size()));
-            }
-        }
-        return allSub;
     }
 
     void addCourse(String courseName, int curLayoutNum) {
         CourseRow addingCourse = new CourseRow();
         addingCourse.courseName = courseName;
         addingCourse.linerLayoutID = curLayoutNum;
-        addingCourse.miniLayoutID = getMiniLayout(courseName); // 根据Course 计算最小值 这个函数最好放在courseTree里面
+        addingCourse.miniLayoutID = getMiniLayout(courseName);
+        // 根据Course 计算最小值 这个函数最好放在courseTree里面
         addingCourse.maxLayoutID = getMaxLayoutID(courseName);
         this.table.put(courseName, addingCourse);
     }
 
     void updateAllPreMax(ArrayList<String> preCourses) {
         for (String preCourse : preCourses) {
-            ArrayList<String> subCourses = this.courseTree.getAllCourse().get(preCourse).getSub();
-            int max = 5;
-            for (String subCourse : subCourses) {
-                if (this.table.containsKey(subCourse)) {
-                    if (this.table.get(subCourse).linerLayoutID < max) {
-                        max = this.table.get(subCourse).linerLayoutID;
-                    }
-                }
-            }
-            if (this.table.containsKey(preCourse)) {
-                CourseRow preRow = this.table.get(preCourse);
-                preRow.maxLayoutID = max - 1;
-                this.table.put(preCourse, preRow);
-            }
+            updateMax(preCourse);
         }
 
     }
 
-    public int getMaxLayoutID(String courseName) {
-        if (!this.table.containsKey(courseName)) {
-            return 5;
+    private int getMaxLayoutID(String courseName) {
+        int max = 5;
+        for (String sub : courseTree.getAllCourse().get(courseName).getSub()) {
+            if (table.get(sub).linerLayoutID != 0) {
+                if (table.get(sub).linerLayoutID < max) {
+                    max = table.get(sub).linerLayoutID;
+                }
+            }
         }
-        CourseRow curCourse = this.table.get(courseName);
-        return curCourse.maxLayoutID;
+
+        return max - 1;
     }
 
     private int getMiniLayout(String courseName) {

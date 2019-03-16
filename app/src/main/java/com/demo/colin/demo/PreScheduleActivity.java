@@ -118,12 +118,13 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
         implementEvents();
 
     }
-    private void setItemOnClickListener(ListView lv){
+
+    private void setItemOnClickListener(ListView lv) {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = view.findViewById(R.id.sch_ava_item_text);
-                String description ="This is the Course description of " + tv.getText().toString() ;
+                String description = "This is the Course description of " + tv.getText().toString();
                 showToolTip(view, Gravity.BOTTOM, description);
             }
         });
@@ -293,8 +294,7 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                         adapter.removeAll(this.courseTree.getDeepSub(selectedCourse));
                     }
                     // Update the courTree including the flagTree and FinishedCourses
-                    this.courseTree.changeCourseState(selectedCourse);
-                    this.courseTree.addAvailableCourse(selectedCourse);
+                    this.courseTree.changeCourseState(selectedCourse, State.AVAILABLE);
                     this.courseTree.undo(subCourses);
                     addItem.add(selectedCourse);
                     for (String subCourse : subCourses) {
@@ -302,22 +302,25 @@ public class PreScheduleActivity extends Activity implements View.OnDragListener
                             addItem.remove(subCourse);
                         }
                     }
-                   trackDragTable.deleteCourseInTable(selectedCourse,courseTree);
-                    // TODO 更新追踪列表的layout ID
-
+                    trackDragTable.deleteCourseInTable(selectedCourse, courseTree);
                 } else {
+                    //move to a semester
                     if (this.trackDragTable.isDoableSem(courseName, curLayOutID)) {
+                        //update item in adapter
                         removeItem.remove(courseName);
                         addItem.add(courseName);
-                        if (!newLinearLayout.equals(avaLayout)) {
-                            trackDragTable.addCourse(courseName, layoutsArray.indexOf(newLinearLayout));
-                        }
+
                         // Update the available course
                         if (oldListView == findViewById(R.id.schedule_ava_list_view) && newLinearLayout != findViewById(R.id.sch_ava_layout)) {
                             HashSet<String> newAvailableCourse = courseTree.updateFinishedCourse(courseName);
                             lvAdaMap.get(oldListView).updateAvailable(newAvailableCourse);
                         }
+
+
+                        trackDragTable.addCourse(courseName, layoutsArray.indexOf(newLinearLayout));
+
                         this.trackDragTable.updateAllPreMax(courseTree.getAllCourse().get(selectedCourse).getPre());
+
                     } else {
                         Toast.makeText(this, "You can not take this course for this semester!", Toast.LENGTH_LONG).show();
                     }

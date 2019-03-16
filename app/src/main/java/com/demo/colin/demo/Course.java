@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Course {
     private ArrayList<String> pre = new ArrayList<>();
     private ArrayList<String> sub = new ArrayList<>();
-    private int unfinishedPre;
+    int unfinishedPre;
 
     private String courseName;
 
@@ -25,11 +25,8 @@ public class Course {
         return this.sub;
     }
 
-    public String getName() {
-        return this.courseName;
-    }
 
-    public int getPreSize() {
+    int getPreSize() {
         return this.unfinishedPre;
     }
 
