@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CSE Planner</string>
+    <string name="app_name">OSU CSE Planner</string>
     <string name="main_pre_button_text">Pre-Cse major</string>
     <string name="main_button_major_text">Already in major</string>
     <string name="button_text_next">NEXT</string>
